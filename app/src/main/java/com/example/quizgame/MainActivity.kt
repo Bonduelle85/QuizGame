@@ -10,7 +10,7 @@ class MainActivity : AppCompatActivity() {
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val viewModel = MainViewModel()
+        val viewModel = MainViewModel(Repository.Base())
 
         binding.choiceOneButton.setOnClickListener {
             val uiState: UiState = viewModel.chooseFirst()
