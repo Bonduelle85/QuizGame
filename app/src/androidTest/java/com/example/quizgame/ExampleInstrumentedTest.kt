@@ -38,16 +38,16 @@ class ScenarioTest {
         quizPage.checkStateIsQuestion()
 
         quizPage.clickChoiceOne()
-        quizPage.checkStateIsChoiceMade(choice = 0)
+        quizPage.checkStateIsFirstChoiceMade()
 
         quizPage.clickCheckButton()
-        quizPage.checkCorrectState(choice = 0)
+        quizPage.checkCorrectStateFirst()
 
         quizPage.clickChoiceOne()
         quizPage.clickChoiceTwo()
         quizPage.clickChoiceThree()
         quizPage.clickChoiceFour()
-        quizPage.checkCorrectState(choice = 0)
+        quizPage.checkCorrectStateFirst()
 
         quizPage.clickNext()
         quizPage = QuizPage(
@@ -86,7 +86,7 @@ class ScenarioTest {
         quizPage.checkStateIsQuestion()
 
         quizPage.clickChoiceTwo() // "green - Incorrect"
-        quizPage.checkStateIsChoiceMade(choice = 1)
+        quizPage.checkStateIsSecondChoiceMade()
 
         quizPage.clickCheckButton()
         quizPage.checkIncorrectState(choice = 1, correct = 0) // выбранный - красный, правильный - зелёный
@@ -131,16 +131,15 @@ class ScenarioTest {
         quizPage.checkStateIsQuestion()
 
         quizPage.clickChoiceOne()
-        quizPage.checkStateIsChoiceMade(choice = 0)
+        quizPage.checkStateIsFirstChoiceMade()
 
         quizPage.clickChoiceTwo()
-        quizPage.checkStateIsChoiceMade(choice = 1)
+        quizPage.checkStateIsSecondChoiceMade()
 
         quizPage.clickChoiceThree()
-        quizPage.checkStateIsChoiceMade(choice = 2)
+        quizPage.checkStateIsThirdChoiceMade()
 
         quizPage.clickChoiceFour()
-        quizPage.checkStateIsChoiceMade(choice = 3)
+        quizPage.checkStateIsFourthChoiceMade()
     }
-
 }

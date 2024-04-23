@@ -7,7 +7,6 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom
-import androidx.test.espresso.matcher.ViewMatchers.isClickable
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withParent
@@ -32,54 +31,12 @@ class QuizPage(
 
     private val actionButtonId: Int = R.id.actionButton
 
-    private val buttonColorQuestionState = "#CAC672"
-    private val buttonColorChoiceMadeState = "#C431BE"
-    private val buttonColorCorrect = "#3AE355"
-    private val buttonColorIncorrect = "#F03131"
-    private val buttonColorInactiveState = "#9C9C90"
-
     private val parent = withParent(isAssignableFrom(LinearLayout::class.java))
-    private val buttonClass = isAssignableFrom(Button::class.java)
 
-    private val buttonOne = onView(
-        allOf(
-            withId(choiceOneButtonId),
-            withText(choice1),
-            buttonClass,
-            parent,
-            withParent(withId(rootId)),
-        )
-    )
-
-    private val buttonTwo = onView(
-        allOf(
-            withId(choiceTwoButtonId),
-            withText(choice2),
-            buttonClass,
-            parent,
-            withParent(withId(rootId)),
-        )
-    )
-
-    private val buttonThree = onView(
-        allOf(
-            withId(choiceThreeButtonId),
-            withText(choice3),
-            buttonClass,
-            parent,
-            withParent(withId(rootId)),
-        )
-    )
-
-    private val buttonFour = onView(
-        allOf(
-            withId(choiceFourButtonId),
-            withText(choice4),
-            buttonClass,
-            parent,
-            withParent(withId(rootId)),
-        )
-    )
+    private val buttonOne = ChoiceUi(choiceOneButtonId, choice1, rootId, parent)
+    private val buttonTwo = ChoiceUi(choiceTwoButtonId, choice2, rootId, parent)
+    private val buttonThree = ChoiceUi(choiceThreeButtonId, choice3, rootId, parent)
+    private val buttonFour = ChoiceUi(choiceFourButtonId, choice4, rootId, parent)
 
     fun checkStateIsQuestion() {
         onView(
@@ -92,138 +49,86 @@ class QuizPage(
             )
         ).check(matches(isDisplayed()))
 
-        buttonOne.check(matches(isClickable()))
-            .check(matches(ButtonColorMatcher(buttonColorQuestionState)))
-
-        buttonTwo.check(matches(isClickable()))
-            .check(matches(ButtonColorMatcher(buttonColorQuestionState)))
-
-        buttonThree.check(matches(isClickable()))
-            .check(matches(ButtonColorMatcher(buttonColorQuestionState)))
-
-        buttonFour.check(matches(isClickable()))
-            .check(matches(ButtonColorMatcher(buttonColorQuestionState)))
+        buttonOne.checkQuestionState()
+        buttonTwo.checkQuestionState()
+        buttonThree.checkQuestionState()
+        buttonFour.checkQuestionState()
 
         onView(
             allOf(
                 withId(actionButtonId),
-                buttonClass,
+                isAssignableFrom(Button::class.java),
                 parent,
                 withParent(withId(rootId)),
             )
         ).check(matches(not(isDisplayed())))
     }
 
-    fun checkStateIsChoiceMade(choice: Int) {
-
-        val isFirstChoiceMade = choice == 0
-        val checkFirstClickableOrNot = if (isFirstChoiceMade)
-            matches(not(isClickable()))
-        else
-            matches(isClickable())
-        val colorOne = if (isFirstChoiceMade)
-            buttonColorChoiceMadeState
-        else
-            buttonColorQuestionState
-        buttonOne.check(checkFirstClickableOrNot)
-            .check(matches(ButtonColorMatcher(colorOne)))
-
-        val isSecondChoiceMade = choice == 1
-        val checkSecondClickableOrNot = if (isSecondChoiceMade)
-            matches(not(isClickable()))
-        else
-            matches(isClickable())
-        val colorTwo = if (isSecondChoiceMade)
-            buttonColorChoiceMadeState
-        else
-            buttonColorQuestionState
-        buttonTwo.check(checkSecondClickableOrNot)
-            .check(matches(ButtonColorMatcher(colorTwo)))
-
-        val isThirdChoiceMade = choice == 2
-        val checkThirdClickableOrNot = if (isThirdChoiceMade)
-            matches(not(isClickable()))
-        else
-            matches(isClickable())
-        val colorThree = if (isThirdChoiceMade)
-            buttonColorChoiceMadeState
-        else
-            buttonColorQuestionState
-        buttonThree.check(checkThirdClickableOrNot)
-            .check(matches(ButtonColorMatcher(colorThree)))
-
-        val isFourthChoiceMade = choice == 3
-        val checkFourthClickableOrNot = if (isFourthChoiceMade)
-            matches(not(isClickable()))
-        else
-            matches(isClickable())
-        val colorFour = if (isFourthChoiceMade)
-            buttonColorChoiceMadeState
-        else
-            buttonColorQuestionState
-        buttonFour.check(checkFourthClickableOrNot)
-            .check(matches(ButtonColorMatcher(colorFour)))
-
+    fun checkStateIsFirstChoiceMade() {
+        buttonOne.checkChoiceMade()
+        buttonTwo.checkChoiceNotMade()
+        buttonThree.checkChoiceNotMade()
+        buttonFour.checkChoiceNotMade()
         onView(withId(actionButtonId)).check(matches(withText(R.string.check)))
             .check(matches(isDisplayed()))
     }
-
-    fun checkCorrectState(choice: Int) {
-        val isCorrectOne = choice == 0
-        val colorOne = if (isCorrectOne) buttonColorCorrect else buttonColorInactiveState
-        buttonOne.check(matches(ButtonColorMatcher(colorOne)))
-            .check(matches(not(isClickable())))
-
-        val isCorrectTwo = choice == 1
-        val colorTwo = if (isCorrectTwo) buttonColorCorrect else buttonColorInactiveState
-        buttonOne.check(matches(ButtonColorMatcher(colorTwo)))
-            .check(matches(not(isClickable())))
-
-        val isCorrectThree = choice == 2
-        val colorThree = if (isCorrectThree) buttonColorCorrect else buttonColorInactiveState
-        buttonOne.check(matches(ButtonColorMatcher(colorThree)))
-            .check(matches(not(isClickable())))
-
-        val isCorrectFour = choice == 3
-        val colorFour = if (isCorrectFour) buttonColorCorrect else buttonColorInactiveState
-        buttonOne.check(matches(ButtonColorMatcher(colorFour)))
-            .check(matches(not(isClickable())))
-
+    fun checkStateIsSecondChoiceMade() {
+        buttonOne.checkChoiceNotMade()
+        buttonTwo.checkChoiceMade()
+        buttonThree.checkChoiceNotMade()
+        buttonFour.checkChoiceNotMade()
+        onView(withId(actionButtonId)).check(matches(withText(R.string.check)))
+            .check(matches(isDisplayed()))
+    }
+    fun checkStateIsThirdChoiceMade() {
+        buttonOne.checkChoiceNotMade()
+        buttonTwo.checkChoiceNotMade()
+        buttonThree.checkChoiceMade()
+        buttonFour.checkChoiceNotMade()
+        onView(withId(actionButtonId)).check(matches(withText(R.string.check)))
+            .check(matches(isDisplayed()))
+    }
+    fun checkStateIsFourthChoiceMade() {
+        buttonOne.checkChoiceNotMade()
+        buttonTwo.checkChoiceNotMade()
+        buttonThree.checkChoiceNotMade()
+        buttonFour.checkChoiceMade()
+        onView(withId(actionButtonId)).check(matches(withText(R.string.check)))
+            .check(matches(isDisplayed()))
+    }
+    fun checkCorrectStateFirst() {
+        buttonOne.checkCorrect()
+        buttonTwo.checkInactive()
+        buttonThree.checkInactive()
+        buttonFour.checkInactive()
         onView(withId(actionButtonId)).check(matches(withText(R.string.next)))
     }
-
+    fun checkCorrectStateSecond() {
+        buttonOne.checkInactive()
+        buttonTwo.checkCorrect()
+        buttonThree.checkInactive()
+        buttonFour.checkInactive()
+        onView(withId(actionButtonId)).check(matches(withText(R.string.next)))
+    }
+    fun checkCorrectStateThird() {
+        buttonOne.checkInactive()
+        buttonTwo.checkInactive()
+        buttonThree.checkCorrect()
+        buttonFour.checkInactive()
+        onView(withId(actionButtonId)).check(matches(withText(R.string.next)))
+    }
+    fun checkCorrectStateFourth() {
+        buttonOne.checkInactive()
+        buttonTwo.checkInactive()
+        buttonThree.checkInactive()
+        buttonFour.checkCorrect()
+        onView(withId(actionButtonId)).check(matches(withText(R.string.next)))
+    }
     fun checkIncorrectState(choice: Int, correct: Int) {
-        val isCorrectOne = correct == 0
-        val colorOne = if (isCorrectOne) buttonColorCorrect else if (choice == 0)
-            buttonColorIncorrect
-        else
-            buttonColorInactiveState
-        buttonOne.check(matches(ButtonColorMatcher(colorOne)))
-            .check(matches(not(isClickable())))
-
-        val isCorrectTwo = correct == 1
-        val colorTwo = if (isCorrectTwo) buttonColorCorrect else if (choice == 1)
-            buttonColorIncorrect
-        else
-            buttonColorInactiveState
-        buttonOne.check(matches(ButtonColorMatcher(colorTwo)))
-            .check(matches(not(isClickable())))
-
-        val isCorrectThree = correct == 2
-        val colorThree = if (isCorrectThree) buttonColorCorrect else if (choice == 2)
-            buttonColorIncorrect
-        else
-            buttonColorInactiveState
-        buttonOne.check(matches(ButtonColorMatcher(colorThree)))
-            .check(matches(not(isClickable())))
-
-        val isCorrectFour = correct == 3
-        val colorFour = if (isCorrectFour) buttonColorCorrect else if (choice == 3)
-            buttonColorIncorrect
-        else
-            buttonColorInactiveState
-        buttonOne.check(matches(ButtonColorMatcher(colorFour)))
-            .check(matches(not(isClickable())))
+        buttonOne.checkIncorrectState(correct, choice, 0)
+        buttonTwo.checkIncorrectState(correct, choice, 1)
+        buttonThree.checkIncorrectState(correct, choice, 2)
+        buttonFour.checkIncorrectState(correct, choice, 3)
 
         onView(withId(actionButtonId)).check(matches(withText(R.string.next)))
     }
