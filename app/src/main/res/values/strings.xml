@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">QuizGame</string>
-    <string name="check">Проверить</string>
-    <string name="next">Следующий</string>
+    <string name="check">Check</string>
+    <string name="next">Next</string>
 </resources>
