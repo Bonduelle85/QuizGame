@@ -9,10 +9,10 @@ import org.hamcrest.Matcher
 import org.hamcrest.Matchers
 
 class ChoiceUi(
-    private val id: Int,
-    private val text: String,
-    private val rootId: Int,
-    private val parent: Matcher<View>
+    id: Int,
+    text: String,
+    rootId: Int,
+    parent: Matcher<View>
 ) {
 
     private val interaction = Espresso.onView(
