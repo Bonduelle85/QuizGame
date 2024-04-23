@@ -1,22 +1,12 @@
 package com.example.quizgame
 
-import android.widget.Button
 import android.widget.LinearLayout
-import android.widget.TextView
-import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom
-import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
-import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withParent
-import androidx.test.espresso.matcher.ViewMatchers.withText
-import org.hamcrest.Matchers.allOf
-import org.hamcrest.Matchers.not
 
 
 class QuizPage(
-    private val question: String,
+    question: String,
     choice1: String,
     choice2: String,
     choice3: String,
@@ -24,136 +14,115 @@ class QuizPage(
 ) {
 
     private val rootId: Int = R.id.rootLayout
-    private val choiceOneButtonId: Int = R.id.choiceOneButton
-    private val choiceTwoButtonId: Int = R.id.choiceTwoButton
-    private val choiceThreeButtonId: Int = R.id.choiceThreeButton
-    private val choiceFourButtonId: Int = R.id.choiceFourButton
-
-    private val actionButtonId: Int = R.id.actionButton
-
     private val parent = withParent(isAssignableFrom(LinearLayout::class.java))
-
-    private val buttonOne = ChoiceUi(choiceOneButtonId, choice1, rootId, parent)
-    private val buttonTwo = ChoiceUi(choiceTwoButtonId, choice2, rootId, parent)
-    private val buttonThree = ChoiceUi(choiceThreeButtonId, choice3, rootId, parent)
-    private val buttonFour = ChoiceUi(choiceFourButtonId, choice4, rootId, parent)
+    private val question = QuestionUi(rootId, parent, question)
+    private val choiceOne = ChoiceUi(R.id.choiceOneButton, choice1, rootId, parent)
+    private val choiceTwo = ChoiceUi(R.id.choiceTwoButton, choice2, rootId, parent)
+    private val choiceThree = ChoiceUi(R.id.choiceThreeButton, choice3, rootId, parent)
+    private val choiceFour = ChoiceUi(R.id.choiceFourButton, choice4, rootId, parent)
+    private val actionButton = ActionButtonUi(parent, rootId)
 
     fun checkStateIsQuestion() {
-        onView(
-            allOf(
-                withId(R.id.questionTextView),
-                withText(question),
-                isAssignableFrom(TextView::class.java),
-                parent,
-                withParent(withId(rootId)),
-            )
-        ).check(matches(isDisplayed()))
+        question.checkQuestionState()
 
-        buttonOne.checkQuestionState()
-        buttonTwo.checkQuestionState()
-        buttonThree.checkQuestionState()
-        buttonFour.checkQuestionState()
+        choiceOne.checkQuestionState()
+        choiceTwo.checkQuestionState()
+        choiceThree.checkQuestionState()
+        choiceFour.checkQuestionState()
 
-        onView(
-            allOf(
-                withId(actionButtonId),
-                isAssignableFrom(Button::class.java),
-                parent,
-                withParent(withId(rootId)),
-            )
-        ).check(matches(not(isDisplayed())))
+        actionButton.checkQuestionState()
     }
 
     fun checkStateIsFirstChoiceMade() {
-        buttonOne.checkChoiceMade()
-        buttonTwo.checkChoiceNotMade()
-        buttonThree.checkChoiceNotMade()
-        buttonFour.checkChoiceNotMade()
-        onView(withId(actionButtonId)).check(matches(withText(R.string.check)))
-            .check(matches(isDisplayed()))
+        choiceOne.checkChoiceMade()
+        choiceTwo.checkChoiceNotMade()
+        choiceThree.checkChoiceNotMade()
+        choiceFour.checkChoiceNotMade()
+
+        actionButton.checkStateIsCheck()
     }
     fun checkStateIsSecondChoiceMade() {
-        buttonOne.checkChoiceNotMade()
-        buttonTwo.checkChoiceMade()
-        buttonThree.checkChoiceNotMade()
-        buttonFour.checkChoiceNotMade()
-        onView(withId(actionButtonId)).check(matches(withText(R.string.check)))
-            .check(matches(isDisplayed()))
+        choiceOne.checkChoiceNotMade()
+        choiceTwo.checkChoiceMade()
+        choiceThree.checkChoiceNotMade()
+        choiceFour.checkChoiceNotMade()
+
+        actionButton.checkStateIsCheck()
     }
     fun checkStateIsThirdChoiceMade() {
-        buttonOne.checkChoiceNotMade()
-        buttonTwo.checkChoiceNotMade()
-        buttonThree.checkChoiceMade()
-        buttonFour.checkChoiceNotMade()
-        onView(withId(actionButtonId)).check(matches(withText(R.string.check)))
-            .check(matches(isDisplayed()))
+        choiceOne.checkChoiceNotMade()
+        choiceTwo.checkChoiceNotMade()
+        choiceThree.checkChoiceMade()
+        choiceFour.checkChoiceNotMade()
+
+        actionButton.checkStateIsCheck()
     }
     fun checkStateIsFourthChoiceMade() {
-        buttonOne.checkChoiceNotMade()
-        buttonTwo.checkChoiceNotMade()
-        buttonThree.checkChoiceNotMade()
-        buttonFour.checkChoiceMade()
-        onView(withId(actionButtonId)).check(matches(withText(R.string.check)))
-            .check(matches(isDisplayed()))
+        choiceOne.checkChoiceNotMade()
+        choiceTwo.checkChoiceNotMade()
+        choiceThree.checkChoiceNotMade()
+        choiceFour.checkChoiceMade()
+
+        actionButton.checkStateIsCheck()
     }
     fun checkCorrectStateFirst() {
-        buttonOne.checkCorrect()
-        buttonTwo.checkInactive()
-        buttonThree.checkInactive()
-        buttonFour.checkInactive()
-        onView(withId(actionButtonId)).check(matches(withText(R.string.next)))
+        choiceOne.checkCorrect()
+        choiceTwo.checkInactive()
+        choiceThree.checkInactive()
+        choiceFour.checkInactive()
+        actionButton.checkStateIsNext()
     }
     fun checkCorrectStateSecond() {
-        buttonOne.checkInactive()
-        buttonTwo.checkCorrect()
-        buttonThree.checkInactive()
-        buttonFour.checkInactive()
-        onView(withId(actionButtonId)).check(matches(withText(R.string.next)))
+        choiceOne.checkInactive()
+        choiceTwo.checkCorrect()
+        choiceThree.checkInactive()
+        choiceFour.checkInactive()
+        actionButton.checkStateIsNext()
     }
     fun checkCorrectStateThird() {
-        buttonOne.checkInactive()
-        buttonTwo.checkInactive()
-        buttonThree.checkCorrect()
-        buttonFour.checkInactive()
-        onView(withId(actionButtonId)).check(matches(withText(R.string.next)))
+        choiceOne.checkInactive()
+        choiceTwo.checkInactive()
+        choiceThree.checkCorrect()
+        choiceFour.checkInactive()
+        actionButton.checkStateIsNext()
     }
     fun checkCorrectStateFourth() {
-        buttonOne.checkInactive()
-        buttonTwo.checkInactive()
-        buttonThree.checkInactive()
-        buttonFour.checkCorrect()
-        onView(withId(actionButtonId)).check(matches(withText(R.string.next)))
+        choiceOne.checkInactive()
+        choiceTwo.checkInactive()
+        choiceThree.checkInactive()
+        choiceFour.checkCorrect()
+        actionButton.checkStateIsNext()
     }
     fun checkIncorrectState(choice: Int, correct: Int) {
-        buttonOne.checkIncorrectState(correct, choice, 0)
-        buttonTwo.checkIncorrectState(correct, choice, 1)
-        buttonThree.checkIncorrectState(correct, choice, 2)
-        buttonFour.checkIncorrectState(correct, choice, 3)
+        choiceOne.checkIncorrectState(correct, choice, 0)
+        choiceTwo.checkIncorrectState(correct, choice, 1)
+        choiceThree.checkIncorrectState(correct, choice, 2)
+        choiceFour.checkIncorrectState(correct, choice, 3)
 
-        onView(withId(actionButtonId)).check(matches(withText(R.string.next)))
+        actionButton.checkStateIsNext()
     }
 
     fun clickCheckButton() {
-        onView(withId(actionButtonId)).perform(click())
+        actionButton.click()
     }
 
     fun clickChoiceOne() {
-        onView(withId(choiceOneButtonId)).perform(click())
+        choiceOne.click()
     }
 
     fun clickChoiceTwo() {
-        onView(withId(choiceTwoButtonId)).perform(click())
+        choiceTwo.click()
     }
 
     fun clickChoiceThree() {
-        onView(withId(choiceThreeButtonId)).perform(click())
+        choiceThree.click()
     }
 
     fun clickChoiceFour() {
-        onView(withId(choiceFourButtonId)).perform(click())
+        choiceFour.click()
     }
 
     fun clickNext() {
-        onView(withId(actionButtonId)).perform(click())
+        actionButton.click()
     }
 }

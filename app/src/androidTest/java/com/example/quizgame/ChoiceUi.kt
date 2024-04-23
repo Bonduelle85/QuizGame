@@ -1,7 +1,7 @@
 package com.example.quizgame
 
 import android.view.View
-import android.widget.Button
+import androidx.appcompat.widget.AppCompatButton
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.matcher.ViewMatchers
@@ -19,7 +19,7 @@ class ChoiceUi(
         Matchers.allOf(
             ViewMatchers.withId(id),
             ViewMatchers.withText(text),
-            ViewMatchers.isAssignableFrom(Button::class.java),
+            ViewMatchers.isAssignableFrom(AppCompatButton::class.java),
             parent,
             ViewMatchers.withParent(ViewMatchers.withId(rootId)),
         )
@@ -30,6 +30,10 @@ class ChoiceUi(
     private val buttonColorCorrect = "#3AE355"
     private val buttonColorIncorrect = "#F03131"
     private val buttonColorInactiveState = "#9C9C90"
+
+    fun click() {
+        interaction.perform(androidx.test.espresso.action.ViewActions.click())
+    }
 
     fun checkQuestionState() {
         interaction.check(ViewAssertions.matches(ViewMatchers.isClickable()))
