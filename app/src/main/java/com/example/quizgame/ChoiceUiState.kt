@@ -9,38 +9,41 @@ interface ChoiceUiState {
     data class AvailableToChoose(private val value: String) : ChoiceUiState {
         override fun show(choiceButton: AppCompatButton) = with(choiceButton) {
             text = value
-            setTextColor(ContextCompat.getColor(choiceButton.context, R.color.yellow))
+            setBackgroundColor(ContextCompat.getColor(choiceButton.context, R.color.yellow))
             isClickable = true
         }
     }
 
     object ChoiceMade : ChoiceUiState {
         override fun show(choiceButton: AppCompatButton) = with(choiceButton) {
-            setTextColor(ContextCompat.getColor(choiceButton.context, R.color.purple))
+            setBackgroundColor(ContextCompat.getColor(choiceButton.context, R.color.purple))
             isClickable = false
         }
     }
 
     object Correct : ChoiceUiState {
         override fun show(choiceButton: AppCompatButton) = with(choiceButton) {
-            setTextColor(ContextCompat.getColor(choiceButton.context, R.color.green))
+            setBackgroundColor(ContextCompat.getColor(choiceButton.context, R.color.green))
             isClickable = false
         }
     }
 
     object Incorrect  : ChoiceUiState{
         override fun show(choiceButton: AppCompatButton) = with(choiceButton) {
-            setTextColor(ContextCompat.getColor(choiceButton.context, R.color.red))
+            setBackgroundColor(ContextCompat.getColor(choiceButton.context, R.color.red))
         }
     }
 
     object Empty : ChoiceUiState {
-        override fun show(choiceButton: AppCompatButton) = Unit
+        override fun show(choiceButton: AppCompatButton) = with(choiceButton) {
+            setBackgroundColor(ContextCompat.getColor(choiceButton.context, R.color.yellow))
+            isClickable = true
+        }
     }
 
     object NotAvailable : ChoiceUiState {
         override fun show(choiceButton: AppCompatButton) = with(choiceButton) {
-            setTextColor(ContextCompat.getColor(choiceButton.context, R.color.grey))
+            setBackgroundColor(ContextCompat.getColor(choiceButton.context, R.color.grey))
             isClickable = false
         }
     }
