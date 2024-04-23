@@ -6,6 +6,22 @@ interface UiState {
 
     fun update(binding: ActivityMainBinding)
 
+    abstract class Abstract(
+        private val choiceOneUiState: ChoiceUiState,
+        private val choiceTwoUiState: ChoiceUiState,
+        private val choiceThreeUiState: ChoiceUiState,
+        private val choiceFourUiState: ChoiceUiState,
+        private val actionUiState: ActionUiState
+    ) : UiState {
+        override fun update(binding: ActivityMainBinding) {
+            choiceOneUiState.show(binding.choiceOneButton)
+            choiceTwoUiState.show(binding.choiceTwoButton)
+            choiceThreeUiState.show(binding.choiceThreeButton)
+            choiceFourUiState.show(binding.choiceFourButton)
+            actionUiState.show(binding.actionButton)
+        }
+    }
+
     data class Question(
         private val questionUiState: QuestionUiState,
         private val choiceOneUiState: ChoiceUiState,
@@ -13,12 +29,17 @@ interface UiState {
         private val choiceThreeUiState: ChoiceUiState,
         private val choiceFourUiState: ChoiceUiState,
         private val actionUiState: ActionUiState
-    ) : UiState {
-
+    ) : Abstract(
+        choiceOneUiState,
+        choiceTwoUiState,
+        choiceThreeUiState,
+        choiceFourUiState,
+        actionUiState
+    ) {
         override fun update(binding: ActivityMainBinding) {
-            TODO("Not yet implemented")
+            super.update(binding)
+            questionUiState.show(binding.questionTextView)
         }
-
     }
 
     data class ChoiceMade(
@@ -27,12 +48,13 @@ interface UiState {
         private val choiceThreeUiState: ChoiceUiState,
         private val choiceFourUiState: ChoiceUiState,
         private val actionUiState: ActionUiState
-    ) : UiState {
-        override fun update(binding: ActivityMainBinding) {
-            TODO("Not yet implemented")
-        }
-
-    }
+    ) : Abstract(
+        choiceOneUiState,
+        choiceTwoUiState,
+        choiceThreeUiState,
+        choiceFourUiState,
+        actionUiState
+    )
 
     data class Correct(
         private val choiceOneUiState: ChoiceUiState,
@@ -40,13 +62,13 @@ interface UiState {
         private val choiceThreeUiState: ChoiceUiState,
         private val choiceFourUiState: ChoiceUiState,
         private val actionUiState: ActionUiState
-    ) : UiState {
-
-        override fun update(binding: ActivityMainBinding) {
-            TODO("Not yet implemented")
-        }
-
-    }
+    ) : Abstract(
+        choiceOneUiState,
+        choiceTwoUiState,
+        choiceThreeUiState,
+        choiceFourUiState,
+        actionUiState
+    )
 
     data class Incorrect(
         private val choiceOneUiState: ChoiceUiState,
@@ -54,11 +76,11 @@ interface UiState {
         private val choiceThreeUiState: ChoiceUiState,
         private val choiceFourUiState: ChoiceUiState,
         private val actionUiState: ActionUiState
-    ) : UiState {
-
-        override fun update(binding: ActivityMainBinding) {
-            TODO("Not yet implemented")
-        }
-    }
-
+    ) : Abstract(
+        choiceOneUiState,
+        choiceTwoUiState,
+        choiceThreeUiState,
+        choiceFourUiState,
+        actionUiState
+    )
 }
