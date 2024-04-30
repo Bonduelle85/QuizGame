@@ -10,7 +10,10 @@ interface Repository {
     fun check(): CheckResult
     fun next()
 
-    class Base : Repository {
+    class Base(
+        private val currentIndex: IntCache,
+        private val userChoiceIndex: IntCache,
+    ) : Repository {
 
         private val questionAndChoicesList = listOf(
             QuestionAndChoices(
@@ -36,46 +39,51 @@ interface Repository {
             ),
         )
 
-        private var currentIndex = 0
-        private var userChoiceIndex = -1
-
         private val answersList = listOf(
             0,
             1,
             2
         )
+
         override fun questionAndChoices(): QuestionAndChoices {
-            return questionAndChoicesList[currentIndex]
+            return questionAndChoicesList[currentIndex.read()]
         }
 
         override fun chooseFirst() {
-            userChoiceIndex = 0
+            userChoiceIndex.save(0)
         }
 
         override fun chooseSecond() {
-            userChoiceIndex = 1
+            userChoiceIndex.save(1)
         }
 
         override fun chooseThird() {
-            userChoiceIndex = 2
+            userChoiceIndex.save(2)
         }
 
         override fun chooseFourth() {
-            userChoiceIndex = 3
+            userChoiceIndex.save(3)
         }
 
         override fun check(): CheckResult {
-            val correctIndex = answersList[currentIndex]
-            return if (userChoiceIndex == correctIndex)
+            val correctIndex = answersList[currentIndex.read()]
+            return if (userChoiceIndex.read() == correctIndex)
                 CheckResult.Correct(correctIndex = correctIndex)
             else
-                CheckResult.Incorrect(correctIndex = correctIndex, incorrectIndex = userChoiceIndex)
+                CheckResult.Incorrect(
+                    correctIndex = correctIndex,
+                    incorrectIndex = userChoiceIndex.read()
+                )
         }
 
         override fun next() {
-            currentIndex++
-            if (currentIndex == questionAndChoicesList.size) currentIndex = 0
-            userChoiceIndex = -1
+            val current = currentIndex.read()
+            val new = current + 1
+            currentIndex.save(new)
+
+            if (currentIndex.read() == questionAndChoicesList.size)
+                currentIndex.save(0)
+            userChoiceIndex.save(-1)
         }
     }
 }

@@ -1,6 +1,7 @@
 package com.example.quizgame
 
 import android.app.Application
+import android.content.Context
 
 class QuizApp : Application() {
 
@@ -9,6 +10,16 @@ class QuizApp : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        viewModel = MainViewModel(Repository.Base())
+        val permanentStorage = PermanentStorage.Base(
+            getSharedPreferences(
+                getString(R.string.app_name), Context.MODE_PRIVATE
+            )
+        )
+        viewModel = MainViewModel(
+            Repository.Base(
+                IntCache.Base("currentIndex", permanentStorage, 0),
+                IntCache.Base("userChoiceIndex", permanentStorage, -1)
+            )
+        )
     }
 }
