@@ -40,6 +40,28 @@ class MainViewModel(
         )
     }
 
+    fun chooseThird(): UiState {
+        repository.chooseThird()
+        return UiState.ChoiceMade(
+            choiceOneUiState = ChoiceUiState.Empty,
+            choiceTwoUiState = ChoiceUiState.Empty,
+            choiceThreeUiState = ChoiceUiState.ChoiceMade,
+            choiceFourUiState = ChoiceUiState.Empty,
+            actionUiState = ActionUiState.Check
+        )
+    }
+
+    fun chooseFourth(): UiState {
+        repository.chooseFourth()
+        return UiState.ChoiceMade(
+            choiceOneUiState = ChoiceUiState.Empty,
+            choiceTwoUiState = ChoiceUiState.Empty,
+            choiceThreeUiState = ChoiceUiState.Empty,
+            choiceFourUiState = ChoiceUiState.ChoiceMade,
+            actionUiState = ActionUiState.Check
+        )
+    }
+
     fun handleAction(): UiState {
         if (shouldCheck) {
             shouldCheck = false
@@ -93,25 +115,5 @@ class MainViewModel(
         }
     }
 
-    fun chooseThird(): UiState {
-        repository.chooseThird()
-        return UiState.ChoiceMade(
-            choiceOneUiState = ChoiceUiState.Empty,
-            choiceTwoUiState = ChoiceUiState.Empty,
-            choiceThreeUiState = ChoiceUiState.ChoiceMade,
-            choiceFourUiState = ChoiceUiState.Empty,
-            actionUiState = ActionUiState.Check
-        )
-    }
 
-    fun chooseFourth(): UiState {
-        repository.chooseFourth()
-        return UiState.ChoiceMade(
-            choiceOneUiState = ChoiceUiState.Empty,
-            choiceTwoUiState = ChoiceUiState.Empty,
-            choiceThreeUiState = ChoiceUiState.Empty,
-            choiceFourUiState = ChoiceUiState.ChoiceMade,
-            actionUiState = ActionUiState.Check
-        )
-    }
 }

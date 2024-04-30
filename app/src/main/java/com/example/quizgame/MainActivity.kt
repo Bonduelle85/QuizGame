@@ -10,7 +10,7 @@ class MainActivity : AppCompatActivity() {
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val viewModel = MainViewModel(Repository.Base())
+        val viewModel = (application as QuizApp).viewModel
 
         binding.choiceOneButton.setOnClickListener {
             val uiState: UiState = viewModel.chooseFirst()
