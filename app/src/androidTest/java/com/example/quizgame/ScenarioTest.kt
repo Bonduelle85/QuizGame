@@ -39,9 +39,13 @@ class ScenarioTest {
 
         quizPage.clickChoiceOne()
         quizPage.checkStateIsFirstChoiceMade()
+        activityScenarioRule.scenario.recreate()
+        quizPage.checkStateIsFirstChoiceMade()
 
         quizPage.clickCheckButton()
         quizPage.checkCorrectStateFirst()
+        activityScenarioRule.scenario.recreate()
+        quizPage.checkStateIsFirstChoiceMade()
 
         quizPage.clickChoiceOne()
         quizPage.clickChoiceTwo()

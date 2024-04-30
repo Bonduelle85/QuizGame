@@ -1,10 +1,13 @@
 package com.example.quizgame
 
+import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.quizgame.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var uiState: UiState
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = ActivityMainBinding.inflate(layoutInflater)
@@ -13,31 +16,48 @@ class MainActivity : AppCompatActivity() {
         val viewModel = (application as QuizApp).viewModel
 
         binding.choiceOneButton.setOnClickListener {
-            val uiState: UiState = viewModel.chooseFirst()
+            uiState = viewModel.chooseFirst()
             uiState.update(binding)
         }
 
         binding.choiceTwoButton.setOnClickListener {
-            val uiState: UiState = viewModel.chooseSecond()
+            uiState = viewModel.chooseSecond()
             uiState.update(binding)
         }
 
         binding.choiceThreeButton.setOnClickListener {
-            val uiState: UiState = viewModel.chooseThird()
+            uiState = viewModel.chooseThird()
             uiState.update(binding)
         }
 
         binding.choiceFourButton.setOnClickListener {
-            val uiState: UiState = viewModel.chooseFourth()
+            uiState = viewModel.chooseFourth()
             uiState.update(binding)
         }
 
         binding.actionButton.setOnClickListener {
-            val uiState: UiState = viewModel.handleAction()
+            uiState = viewModel.handleAction()
             uiState.update(binding)
         }
 
-        val uiState: UiState = viewModel.init()
+        uiState = if (savedInstanceState == null) {
+            viewModel.init()
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                savedInstanceState.getSerializable(KEY, UiState::class.java) as UiState
+            } else {
+                savedInstanceState.getSerializable(KEY) as UiState
+            }
+        }
         uiState.update(binding)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putSerializable(KEY, uiState)
+    }
+
+    companion object {
+        private const val KEY = "uiStateKey"
     }
 }

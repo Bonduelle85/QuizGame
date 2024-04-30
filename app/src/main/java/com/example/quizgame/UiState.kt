@@ -1,8 +1,9 @@
 package com.example.quizgame
 
 import com.example.quizgame.databinding.ActivityMainBinding
+import java.io.Serializable
 
-interface UiState {
+interface UiState : Serializable {
 
     fun update(binding: ActivityMainBinding)
 
