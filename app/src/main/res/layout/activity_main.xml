@@ -22,28 +22,28 @@
         android:layout_height="0dp"
         android:layout_weight="1" />
 
-    <androidx.appcompat.widget.AppCompatButton
+    <com.example.quizgame.ChoiceButton
         android:id="@+id/choiceOneButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginVertical="8dp"
         android:freezesText="true"/>
 
-    <androidx.appcompat.widget.AppCompatButton
+    <com.example.quizgame.ChoiceButton
         android:id="@+id/choiceTwoButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginVertical="8dp"
         android:freezesText="true"/>
 
-    <androidx.appcompat.widget.AppCompatButton
+    <com.example.quizgame.ChoiceButton
         android:id="@+id/choiceThreeButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginVertical="8dp"
         android:freezesText="true"/>
 
-    <androidx.appcompat.widget.AppCompatButton
+    <com.example.quizgame.ChoiceButton
         android:id="@+id/choiceFourButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -55,7 +55,7 @@
         android:layout_height="0dp"
         android:layout_weight="1" />
 
-    <androidx.appcompat.widget.AppCompatButton
+    <com.example.quizgame.ActionButton
         android:id="@+id/actionButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

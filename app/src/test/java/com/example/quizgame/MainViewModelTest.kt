@@ -40,7 +40,7 @@ class MainViewModelTest {
         )
         assertEquals(expectedUiState, actualUiState)
 
-        actualUiState = viewModel.handleAction()
+        actualUiState = viewModel.check()
         expectedUiState = UiState.Correct(
             choiceOneUiState = ChoiceUiState.Correct,
             choiceTwoUiState = ChoiceUiState.NotAvailable,
@@ -50,7 +50,7 @@ class MainViewModelTest {
         )
         assertEquals(expectedUiState, actualUiState)
 
-        actualUiState = viewModel.handleAction()
+        actualUiState = viewModel.next()
         expectedUiState = UiState.Question(
             questionUiState = QuestionUiState.Base(value = "question number 2"),
             choiceOneUiState = ChoiceUiState.AvailableToChoose(value = "q2 choice 1"),
@@ -85,7 +85,7 @@ class MainViewModelTest {
         )
         assertEquals(expectedUiState, actualUiState)
 
-        actualUiState = viewModel.handleAction()
+        actualUiState = viewModel.check()
         expectedUiState = UiState.Incorrect(
             choiceOneUiState = ChoiceUiState.Correct,
             choiceTwoUiState = ChoiceUiState.Incorrect,
@@ -95,7 +95,7 @@ class MainViewModelTest {
         )
         assertEquals(expectedUiState, actualUiState)
 
-        actualUiState = viewModel.handleAction()
+        actualUiState = viewModel.next()
         expectedUiState = UiState.Question(
             questionUiState = QuestionUiState.Base(value = "question number 2"),
             choiceOneUiState = ChoiceUiState.AvailableToChoose(value = "q2 choice 1"),

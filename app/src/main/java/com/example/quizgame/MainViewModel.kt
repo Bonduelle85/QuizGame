@@ -2,9 +2,7 @@ package com.example.quizgame
 
 class MainViewModel(
     private val repository: Repository
-) {
-
-    private var shouldCheck = true
+) : Actions {
 
     fun init(): UiState {
         val data = repository.questionAndChoices()
@@ -62,58 +60,58 @@ class MainViewModel(
         )
     }
 
-    fun handleAction(): UiState {
-        if (shouldCheck) {
-            shouldCheck = false
-            when (val result = repository.check()) {
-                is CheckResult.Correct -> {
-                    return UiState.Correct(
-                        choiceOneUiState = if (result.correctIndex == 0) ChoiceUiState.Correct else ChoiceUiState.NotAvailable,
-                        choiceTwoUiState = if (result.correctIndex == 1) ChoiceUiState.Correct else ChoiceUiState.NotAvailable,
-                        choiceThreeUiState = if (result.correctIndex == 2) ChoiceUiState.Correct else ChoiceUiState.NotAvailable,
-                        choiceFourUiState = if (result.correctIndex == 3) ChoiceUiState.Correct else ChoiceUiState.NotAvailable,
-                        actionUiState = ActionUiState.Next
-                    )
-                }
-
-                is CheckResult.Incorrect -> {
-                    return UiState.Incorrect(
-                        choiceOneUiState = if (result.correctIndex == 0)
-                            ChoiceUiState.Correct
-                        else if (result.incorrectIndex == 0)
-                            ChoiceUiState.Incorrect
-                        else
-                            ChoiceUiState.NotAvailable,
-                        choiceTwoUiState = if (result.correctIndex == 1)
-                            ChoiceUiState.Correct
-                        else if (result.incorrectIndex == 1)
-                            ChoiceUiState.Incorrect
-                        else
-                            ChoiceUiState.NotAvailable,
-                        choiceThreeUiState = if (result.correctIndex == 2)
-                            ChoiceUiState.Correct
-                        else if (result.incorrectIndex == 2)
-                            ChoiceUiState.Incorrect
-                        else
-                            ChoiceUiState.NotAvailable,
-                        choiceFourUiState = if (result.correctIndex == 3)
-                            ChoiceUiState.Correct
-                        else if (result.incorrectIndex == 3)
-                            ChoiceUiState.Incorrect
-                        else
-                            ChoiceUiState.NotAvailable,
-                        actionUiState = ActionUiState.Next
-                    )
-                }
-
-                else -> throw IllegalStateException()
+    override fun check(): UiState {
+        when (val result = repository.check()) {
+            is CheckResult.Correct -> {
+                return UiState.Correct(
+                    choiceOneUiState = if (result.correctIndex == 0) ChoiceUiState.Correct else ChoiceUiState.NotAvailable,
+                    choiceTwoUiState = if (result.correctIndex == 1) ChoiceUiState.Correct else ChoiceUiState.NotAvailable,
+                    choiceThreeUiState = if (result.correctIndex == 2) ChoiceUiState.Correct else ChoiceUiState.NotAvailable,
+                    choiceFourUiState = if (result.correctIndex == 3) ChoiceUiState.Correct else ChoiceUiState.NotAvailable,
+                    actionUiState = ActionUiState.Next
+                )
             }
-        } else {
-            repository.next()
-            shouldCheck = true
-            return init()
+
+            is CheckResult.Incorrect -> {
+                return UiState.Incorrect(
+                    choiceOneUiState = if (result.correctIndex == 0)
+                        ChoiceUiState.Correct
+                    else if (result.incorrectIndex == 0)
+                        ChoiceUiState.Incorrect
+                    else
+                        ChoiceUiState.NotAvailable,
+                    choiceTwoUiState = if (result.correctIndex == 1)
+                        ChoiceUiState.Correct
+                    else if (result.incorrectIndex == 1)
+                        ChoiceUiState.Incorrect
+                    else
+                        ChoiceUiState.NotAvailable,
+                    choiceThreeUiState = if (result.correctIndex == 2)
+                        ChoiceUiState.Correct
+                    else if (result.incorrectIndex == 2)
+                        ChoiceUiState.Incorrect
+                    else
+                        ChoiceUiState.NotAvailable,
+                    choiceFourUiState = if (result.correctIndex == 3)
+                        ChoiceUiState.Correct
+                    else if (result.incorrectIndex == 3)
+                        ChoiceUiState.Incorrect
+                    else
+                        ChoiceUiState.NotAvailable,
+                    actionUiState = ActionUiState.Next
+                )
+            }
+            else -> throw IllegalStateException()
         }
     }
 
+    override fun next(): UiState {
+        repository.next()
+        return init()
+    }
+}
 
+interface Actions {
+    fun check(): UiState
+    fun next(): UiState
 }

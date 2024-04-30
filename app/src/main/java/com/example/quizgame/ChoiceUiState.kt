@@ -2,8 +2,9 @@ package com.example.quizgame
 
 import androidx.appcompat.widget.AppCompatButton
 import androidx.core.content.ContextCompat
+import java.io.Serializable
 
-interface ChoiceUiState {
+interface ChoiceUiState : Serializable {
     fun show(choiceButton: AppCompatButton)
 
     data class AvailableToChoose(private val value: String) : ChoiceUiState {
