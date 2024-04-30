@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
+        android:freezesText="true"
         android:gravity="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Title"
         tools:text="Let's imagine here we got some long long long question for quiz"/>
@@ -25,25 +26,29 @@
         android:id="@+id/choiceOneButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="8dp" />
+        android:layout_marginVertical="8dp"
+        android:freezesText="true"/>
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/choiceTwoButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="8dp" />
+        android:layout_marginVertical="8dp"
+        android:freezesText="true"/>
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/choiceThreeButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="8dp" />
+        android:layout_marginVertical="8dp"
+        android:freezesText="true"/>
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/choiceFourButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="8dp" />
+        android:layout_marginVertical="8dp"
+        android:freezesText="true"/>
 
     <Space
         android:layout_width="match_parent"
@@ -54,6 +59,7 @@
         android:id="@+id/actionButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp" />
+        android:layout_marginBottom="16dp"
+        android:freezesText="true"/>
 
 </LinearLayout>

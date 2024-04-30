@@ -52,6 +52,8 @@ class ScenarioTest {
         quizPage.clickChoiceThree()
         quizPage.clickChoiceFour()
         quizPage.checkCorrectStateFirst()
+        activityScenarioRule.scenario.recreate()
+        quizPage.checkCorrectStateFirst()
 
         quizPage.clickNext()
         quizPage = QuizPage(
@@ -61,6 +63,8 @@ class ScenarioTest {
             choice3 = "yellow",
             choice4 = "red"
         )
+        quizPage.checkStateIsQuestion()
+        activityScenarioRule.scenario.recreate()
         quizPage.checkStateIsQuestion()
     }
 
