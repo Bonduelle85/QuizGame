@@ -1,13 +1,26 @@
 package com.example.quizgame
 
-import com.example.quizgame.databinding.ActivityMainBinding
-import java.io.Serializable
+interface UiState {
 
-interface UiState : Serializable {
+    fun update(
+        updateText: UpdateText,
+        choiceButtonOne: ChoiceButtonAction,
+        choiceButtonTwo: ChoiceButtonAction,
+        choiceButtonThree: ChoiceButtonAction,
+        choiceButtonFour: ChoiceButtonAction,
+        actionButton: UpdateActionButton
+    )
 
-    fun update(binding: ActivityMainBinding)
-
-    fun handleAction(viewModel: Actions): UiState
+    object Empty : UiState {
+        override fun update(
+            updateText: UpdateText,
+            choiceButtonOne: ChoiceButtonAction,
+            choiceButtonTwo: ChoiceButtonAction,
+            choiceButtonThree: ChoiceButtonAction,
+            choiceButtonFour: ChoiceButtonAction,
+            actionButton: UpdateActionButton
+        ) = Unit
+    }
 
     abstract class Abstract(
         private val choiceOneUiState: ChoiceUiState,
@@ -16,11 +29,18 @@ interface UiState : Serializable {
         private val choiceFourUiState: ChoiceUiState,
         private val actionUiState: ActionUiState
     ) : UiState {
-        override fun update(binding: ActivityMainBinding) = with(binding) {
-            choiceOneButton.updateUiState(choiceOneUiState)
-            choiceTwoButton.updateUiState(choiceTwoUiState)
-            choiceThreeButton.updateUiState(choiceThreeUiState)
-            choiceFourButton.updateUiState(choiceFourUiState)
+        override fun update(
+            updateText: UpdateText,
+            choiceButtonOne: ChoiceButtonAction,
+            choiceButtonTwo: ChoiceButtonAction,
+            choiceButtonThree: ChoiceButtonAction,
+            choiceButtonFour: ChoiceButtonAction,
+            actionButton: UpdateActionButton
+        ) {
+            choiceButtonOne.updateUiState(choiceOneUiState)
+            choiceButtonTwo.updateUiState(choiceTwoUiState)
+            choiceButtonThree.updateUiState(choiceThreeUiState)
+            choiceButtonFour.updateUiState(choiceFourUiState)
             actionButton.updateUiState(actionUiState)
         }
     }
@@ -39,12 +59,24 @@ interface UiState : Serializable {
         choiceFourUiState,
         actionUiState
     ) {
-        override fun update(binding: ActivityMainBinding) {
-            super.update(binding)
-            questionUiState.show(binding.questionTextView)
+        override fun update(
+            updateText: UpdateText,
+            choiceButtonOne: ChoiceButtonAction,
+            choiceButtonTwo: ChoiceButtonAction,
+            choiceButtonThree: ChoiceButtonAction,
+            choiceButtonFour: ChoiceButtonAction,
+            actionButton: UpdateActionButton
+        ) {
+            super.update(
+                updateText,
+                choiceButtonOne,
+                choiceButtonTwo,
+                choiceButtonThree,
+                choiceButtonFour,
+                actionButton
+            )
+            questionUiState.show(updateText)
         }
-
-        override fun handleAction(viewModel: Actions): UiState = throw IllegalStateException("")
     }
 
     data class ChoiceMade(
@@ -59,11 +91,7 @@ interface UiState : Serializable {
         choiceThreeUiState,
         choiceFourUiState,
         actionUiState
-    ) {
-        override fun handleAction(viewModel: Actions): UiState {
-            return viewModel.check()
-        }
-    }
+    )
 
     data class Correct(
         private val choiceOneUiState: ChoiceUiState,
@@ -77,11 +105,7 @@ interface UiState : Serializable {
         choiceThreeUiState,
         choiceFourUiState,
         actionUiState
-    ) {
-        override fun handleAction(viewModel: Actions): UiState {
-            return viewModel.next()
-        }
-    }
+    )
 
     data class Incorrect(
         private val choiceOneUiState: ChoiceUiState,
@@ -95,9 +119,5 @@ interface UiState : Serializable {
         choiceThreeUiState,
         choiceFourUiState,
         actionUiState
-    ) {
-        override fun handleAction(viewModel: Actions): UiState {
-            return viewModel.next()
-        }
-    }
+    )
 }

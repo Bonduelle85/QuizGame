@@ -5,7 +5,7 @@ import android.os.Parcelable
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatButton
 
-class ActionButton : AppCompatButton {
+class ActionButton : AppCompatButton, UpdateActionButton {
 
     private lateinit var uiState: ActionUiState
 
@@ -19,7 +19,7 @@ class ActionButton : AppCompatButton {
 
     fun handleAction(viewModel: Actions): UiState = uiState.handleAction(viewModel)
 
-    fun updateUiState(outer: ActionUiState) {
+    override fun updateUiState(outer: ActionUiState) {
         uiState = outer
         uiState.show(this)
     }
@@ -37,4 +37,8 @@ class ActionButton : AppCompatButton {
         super.onRestoreInstanceState(restoredState.superState)
         updateUiState(restoredState.restore())
     }
+}
+
+interface UpdateActionButton {
+    fun updateUiState(outer: ActionUiState)
 }

@@ -4,16 +4,20 @@ class MainViewModel(
     private val repository: Repository
 ) : Actions {
 
-    fun init(): UiState {
-        val data = repository.questionAndChoices()
-        return UiState.Question(
-            QuestionUiState.Base(data.question),
-            ChoiceUiState.AvailableToChoose(data.choiceOne),
-            ChoiceUiState.AvailableToChoose(data.choiceTwo),
-            ChoiceUiState.AvailableToChoose(data.choiceThree),
-            ChoiceUiState.AvailableToChoose(data.choiceFour),
-            ActionUiState.None
-        )
+    fun init(isFirstTime: Boolean = true): UiState {
+        return if (isFirstTime) {
+            val data = repository.questionAndChoices()
+            UiState.Question(
+                QuestionUiState.Base(data.question),
+                ChoiceUiState.AvailableToChoose(data.choiceOne),
+                ChoiceUiState.AvailableToChoose(data.choiceTwo),
+                ChoiceUiState.AvailableToChoose(data.choiceThree),
+                ChoiceUiState.AvailableToChoose(data.choiceFour),
+                ActionUiState.None
+            )
+        } else {
+            UiState.Empty
+        }
     }
 
     fun chooseFirst(): UiState {
@@ -101,6 +105,7 @@ class MainViewModel(
                     actionUiState = ActionUiState.Next
                 )
             }
+
             else -> throw IllegalStateException()
         }
     }

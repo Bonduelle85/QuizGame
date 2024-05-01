@@ -5,7 +5,7 @@ import android.os.Parcelable
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatButton
 
-class ChoiceButton : AppCompatButton {
+class ChoiceButton : AppCompatButton, ChoiceButtonAction {
 
     private var choiceUiState: ChoiceUiState = ChoiceUiState.Empty
 
@@ -17,7 +17,7 @@ class ChoiceButton : AppCompatButton {
         defStyleAttrs
     )
 
-    fun updateUiState(outer: ChoiceUiState) {
+    override fun updateUiState(outer: ChoiceUiState) {
         choiceUiState = outer
         choiceUiState.show(this)
     }
@@ -36,4 +36,8 @@ class ChoiceButton : AppCompatButton {
         updateUiState(restoredState.restore())
     }
 
+}
+
+interface ChoiceButtonAction{
+    fun updateUiState(outer: ChoiceUiState)
 }

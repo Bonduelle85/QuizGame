@@ -6,7 +6,6 @@ import com.example.quizgame.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = ActivityMainBinding.inflate(layoutInflater)
@@ -15,34 +14,43 @@ class MainActivity : AppCompatActivity() {
         lateinit var uiState: UiState
         val viewModel = (application as QuizApp).viewModel
 
+        val showUi: () -> Unit = {
+            uiState.update(
+                binding.questionTextView,
+                binding.choiceOneButton,
+                binding.choiceTwoButton,
+                binding.choiceThreeButton,
+                binding.choiceFourButton,
+                binding.actionButton
+            )
+        }
+
         binding.choiceOneButton.setOnClickListener {
             uiState = viewModel.chooseFirst()
-            uiState.update(binding)
+            showUi.invoke()
         }
 
         binding.choiceTwoButton.setOnClickListener {
             uiState = viewModel.chooseSecond()
-            uiState.update(binding)
+            showUi.invoke()
         }
 
         binding.choiceThreeButton.setOnClickListener {
             uiState = viewModel.chooseThird()
-            uiState.update(binding)
+            showUi.invoke()
         }
 
         binding.choiceFourButton.setOnClickListener {
             uiState = viewModel.chooseFourth()
-            uiState.update(binding)
+            showUi.invoke()
         }
 
         binding.actionButton.setOnClickListener {
             uiState = binding.actionButton.handleAction(viewModel)
-            uiState.update(binding)
+            showUi.invoke()
         }
 
-        if (savedInstanceState == null)
-            uiState = viewModel.init().also {
-                it.update(binding)
-            }
+        uiState = viewModel.init(savedInstanceState == null)
+        showUi.invoke()
     }
 }
