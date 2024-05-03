@@ -1,9 +1,12 @@
-package com.example.quizgame
+package com.example.quizgame.views.action
 
 import android.content.Context
 import android.os.Parcelable
 import android.util.AttributeSet
+import androidx.annotation.StringRes
 import androidx.appcompat.widget.AppCompatButton
+import com.example.quizgame.presentation.Actions
+import com.example.quizgame.presentation.UiState
 
 class ActionButton : AppCompatButton, UpdateActionButton {
 
@@ -24,6 +27,11 @@ class ActionButton : AppCompatButton, UpdateActionButton {
         uiState.show(this)
     }
 
+    override fun updateUi(textId: Int, visibility: Int) {
+        setText(textId)
+        this.visibility = visibility
+    }
+
     override fun onSaveInstanceState(): Parcelable? {
         return super.onSaveInstanceState()?.let { superState ->
             val state = ActionSavedState(superState)
@@ -41,4 +49,5 @@ class ActionButton : AppCompatButton, UpdateActionButton {
 
 interface UpdateActionButton {
     fun updateUiState(outer: ActionUiState)
+    fun updateUi(@StringRes textId: Int, visibility: Int)
 }

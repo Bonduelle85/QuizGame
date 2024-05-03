@@ -1,9 +1,11 @@
-package com.example.quizgame
+package com.example.quizgame.views.choice
 
 import android.content.Context
 import android.os.Parcelable
 import android.util.AttributeSet
+import androidx.annotation.ColorRes
 import androidx.appcompat.widget.AppCompatButton
+import androidx.core.content.ContextCompat
 
 class ChoiceButton : AppCompatButton, ChoiceButtonAction {
 
@@ -20,6 +22,18 @@ class ChoiceButton : AppCompatButton, ChoiceButtonAction {
     override fun updateUiState(outer: ChoiceUiState) {
         choiceUiState = outer
         choiceUiState.show(this)
+    }
+
+    override fun updateText(text: String) {
+        setText(text)
+    }
+
+    override fun updateBackgroundColor(@ColorRes colorResId: Int) {
+        setBackgroundColor(ContextCompat.getColor(context, colorResId))
+    }
+
+    override fun updateClickable(clickable: Boolean) {
+        isClickable = clickable
     }
 
     override fun onSaveInstanceState(): Parcelable? {
@@ -40,4 +54,8 @@ class ChoiceButton : AppCompatButton, ChoiceButtonAction {
 
 interface ChoiceButtonAction{
     fun updateUiState(outer: ChoiceUiState)
+
+    fun updateText(text: String)
+    fun updateBackgroundColor(@ColorRes colorResId: Int)
+    fun updateClickable(clickable: Boolean)
 }

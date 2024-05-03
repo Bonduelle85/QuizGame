@@ -1,4 +1,10 @@
-package com.example.quizgame
+package com.example.quizgame.presentation
+
+import com.example.quizgame.data.CheckResult
+import com.example.quizgame.data.Repository
+import com.example.quizgame.views.action.ActionUiState
+import com.example.quizgame.views.choice.ChoiceUiState
+import com.example.quizgame.views.question.QuestionUiState
 
 class MainViewModel(
     private val repository: Repository

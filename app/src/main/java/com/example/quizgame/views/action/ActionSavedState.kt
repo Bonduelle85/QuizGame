@@ -1,4 +1,4 @@
-package com.example.quizgame
+package com.example.quizgame.views.action
 
 import android.os.Build
 import android.os.Parcel

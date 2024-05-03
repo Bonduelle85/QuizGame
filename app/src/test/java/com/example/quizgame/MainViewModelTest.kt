@@ -1,5 +1,13 @@
 package com.example.quizgame
 
+import com.example.quizgame.data.CheckResult
+import com.example.quizgame.data.QuestionAndChoices
+import com.example.quizgame.data.Repository
+import com.example.quizgame.presentation.MainViewModel
+import com.example.quizgame.presentation.UiState
+import com.example.quizgame.views.action.ActionUiState
+import com.example.quizgame.views.choice.ChoiceUiState
+import com.example.quizgame.views.question.QuestionUiState
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test

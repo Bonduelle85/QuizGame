@@ -1,4 +1,11 @@
-package com.example.quizgame
+package com.example.quizgame.presentation
+
+import com.example.quizgame.views.action.ActionUiState
+import com.example.quizgame.views.action.UpdateActionButton
+import com.example.quizgame.views.choice.ChoiceButtonAction
+import com.example.quizgame.views.choice.ChoiceUiState
+import com.example.quizgame.views.question.QuestionUiState
+import com.example.quizgame.views.question.UpdateText
 
 interface UiState {
 

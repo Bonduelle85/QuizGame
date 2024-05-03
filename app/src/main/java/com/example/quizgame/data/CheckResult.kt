@@ -1,4 +1,4 @@
-package com.example.quizgame
+package com.example.quizgame.data
 
 interface CheckResult {
     class Correct(val correctIndex: Int) : CheckResult

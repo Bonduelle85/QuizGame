@@ -1,7 +1,8 @@
-package com.example.quizgame
+package com.example.quizgame.presentation
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.example.quizgame.QuizApp
 import com.example.quizgame.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {

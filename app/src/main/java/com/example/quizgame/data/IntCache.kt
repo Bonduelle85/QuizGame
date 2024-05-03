@@ -1,4 +1,4 @@
-package com.example.quizgame
+package com.example.quizgame.data
 
 import android.content.SharedPreferences
 

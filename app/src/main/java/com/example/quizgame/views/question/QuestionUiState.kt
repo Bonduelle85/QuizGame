@@ -1,4 +1,4 @@
-package com.example.quizgame
+package com.example.quizgame.views.question
 
 
 interface QuestionUiState {
@@ -6,12 +6,12 @@ interface QuestionUiState {
 
     data class Base(private val value: String) : QuestionUiState {
         override fun show(textView: UpdateText) {
-            textView.show(value)
+            textView.update(value)
         }
     }
 }
 
 interface UpdateText {
 
-    fun show(text: String)
+    fun update(text: String)
 }

@@ -1,4 +1,4 @@
-package com.example.quizgame
+package com.example.quizgame.views.question
 
 import android.content.Context
 import android.util.AttributeSet
@@ -14,7 +14,7 @@ class CustomTextView : MaterialTextView, UpdateText {
         defStyleAttrs
     )
 
-    override fun show(text: String) {
+    override fun update(text: String) {
         setText(text)
     }
 }

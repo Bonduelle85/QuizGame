@@ -2,6 +2,10 @@ package com.example.quizgame
 
 import android.app.Application
 import android.content.Context
+import com.example.quizgame.data.IntCache
+import com.example.quizgame.data.PermanentStorage
+import com.example.quizgame.data.Repository
+import com.example.quizgame.presentation.MainViewModel
 
 class QuizApp : Application() {
 

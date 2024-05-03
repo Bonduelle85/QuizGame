@@ -1,4 +1,4 @@
-package com.example.quizgame
+package com.example.quizgame.data
 
 data class QuestionAndChoices(
     val question: String,

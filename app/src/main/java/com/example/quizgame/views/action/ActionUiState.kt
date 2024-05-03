@@ -1,13 +1,15 @@
-package com.example.quizgame
+package com.example.quizgame.views.action
 
 import android.view.View
 import androidx.annotation.StringRes
-import androidx.appcompat.widget.AppCompatButton
+import com.example.quizgame.R
+import com.example.quizgame.presentation.Actions
+import com.example.quizgame.presentation.UiState
 import java.io.Serializable
 
 interface ActionUiState : Serializable {
 
-    fun show(actionButton: AppCompatButton)
+    fun show(actionButton: UpdateActionButton)
     fun handleAction(viewModel: Actions): UiState
 
     abstract class Abstract(
@@ -15,11 +17,11 @@ interface ActionUiState : Serializable {
         @StringRes
         private val resourceId: Int
     ) : ActionUiState {
-        override fun show(actionButton: AppCompatButton) = with(actionButton) {
-            visibility = this@Abstract.visibility
-            setText(resourceId)
+        override fun show(actionButton: UpdateActionButton) = with(actionButton) {
+            updateUi(resourceId, visibility)
         }
     }
+
     object None : Abstract(View.INVISIBLE, R.string.check) {
         override fun handleAction(viewModel: Actions): UiState = throw IllegalStateException("")
     }

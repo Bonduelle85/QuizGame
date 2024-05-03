@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:paddingHorizontal="16dp">
 
-    <com.example.quizgame.CustomTextView
+    <com.example.quizgame.views.question.CustomTextView
         android:id="@+id/questionTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -29,7 +29,7 @@
         android:columnCount="2"
         android:rowCount="2">
 
-        <com.example.quizgame.ChoiceButton
+        <com.example.quizgame.views.choice.ChoiceButton
             android:id="@+id/choiceOneButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -37,7 +37,7 @@
             android:layout_marginVertical="8dp"
             android:freezesText="true"/>
 
-        <com.example.quizgame.ChoiceButton
+        <com.example.quizgame.views.choice.ChoiceButton
             android:id="@+id/choiceTwoButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -45,7 +45,7 @@
             android:layout_marginVertical="8dp"
             android:freezesText="true"/>
 
-        <com.example.quizgame.ChoiceButton
+        <com.example.quizgame.views.choice.ChoiceButton
             android:id="@+id/choiceThreeButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -53,7 +53,7 @@
             android:layout_marginVertical="8dp"
             android:freezesText="true"/>
 
-        <com.example.quizgame.ChoiceButton
+        <com.example.quizgame.views.choice.ChoiceButton
             android:id="@+id/choiceFourButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -68,7 +68,7 @@
         android:layout_height="0dp"
         android:layout_weight="1" />
 
-    <com.example.quizgame.ActionButton
+    <com.example.quizgame.views.action.ActionButton
         android:id="@+id/actionButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
