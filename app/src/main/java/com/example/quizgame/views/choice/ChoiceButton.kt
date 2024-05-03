@@ -28,11 +28,8 @@ class ChoiceButton : AppCompatButton, ChoiceButtonAction {
         setText(text)
     }
 
-    override fun updateBackgroundColor(@ColorRes colorResId: Int) {
+    override fun updateUi(colorResId: Int, clickable: Boolean) {
         setBackgroundColor(ContextCompat.getColor(context, colorResId))
-    }
-
-    override fun updateClickable(clickable: Boolean) {
         isClickable = clickable
     }
 
@@ -56,6 +53,5 @@ interface ChoiceButtonAction{
     fun updateUiState(outer: ChoiceUiState)
 
     fun updateText(text: String)
-    fun updateBackgroundColor(@ColorRes colorResId: Int)
-    fun updateClickable(clickable: Boolean)
+    fun updateUi(@ColorRes colorResId: Int,clickable: Boolean)
 }

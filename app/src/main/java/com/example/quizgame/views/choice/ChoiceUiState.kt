@@ -9,42 +9,37 @@ interface ChoiceUiState : Serializable {
     data class AvailableToChoose(private val value: String) : ChoiceUiState {
         override fun show(choiceButton: ChoiceButtonAction) = with(choiceButton) {
             updateText(value)
-            updateBackgroundColor(R.color.yellow)
-            updateClickable(true)
+            updateUi(R.color.yellow, true)
         }
     }
 
     object ChoiceMade : ChoiceUiState {
         override fun show(choiceButton: ChoiceButtonAction) = with(choiceButton) {
-            updateBackgroundColor(R.color.purple)
-            updateClickable(false)
+            updateUi(R.color.purple, false)
         }
     }
 
     object Incorrect  : ChoiceUiState {
         override fun show(choiceButton: ChoiceButtonAction) = with(choiceButton) {
-            updateBackgroundColor(R.color.red)
+            updateUi(R.color.red, false)
         }
     }
 
     object Correct : ChoiceUiState {
         override fun show(choiceButton: ChoiceButtonAction) = with(choiceButton) {
-            updateBackgroundColor(R.color.green)
-            updateClickable(false)
+            updateUi(R.color.green, false)
         }
     }
 
     object Empty : ChoiceUiState {
         override fun show(choiceButton: ChoiceButtonAction) = with(choiceButton) {
-            updateBackgroundColor(R.color.yellow)
-            updateClickable(true)
+            updateUi(R.color.yellow, true)
         }
     }
 
     object NotAvailable : ChoiceUiState {
         override fun show(choiceButton: ChoiceButtonAction) = with(choiceButton) {
-            updateBackgroundColor(R.color.grey)
-            updateClickable(false)
+            updateUi(R.color.grey, false)
         }
     }
 }
