@@ -1,11 +1,11 @@
 package com.example.quizgame
 
 import com.example.quizgame.views.question.QuestionUiState
-import com.example.quizgame.views.question.UpdateText
+import com.example.quizgame.views.question.UpdateQuestionText
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
-class QuestionUiStateTest {
+class QuestionGameUiStateTest {
 
     @Test
     fun test() {
@@ -16,7 +16,7 @@ class QuestionUiStateTest {
     }
 }
 
-private class FakeTextView : UpdateText {
+private class FakeTextView : UpdateQuestionText {
 
     var actual: String = ""
 

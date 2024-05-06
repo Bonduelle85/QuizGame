@@ -4,7 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import com.google.android.material.textview.MaterialTextView
 
-class CustomTextView : MaterialTextView, UpdateText {
+class CustomTextView : MaterialTextView, UpdateQuestionText {
 
     constructor(context: Context) : super(context)
     constructor(context: Context, attributeSet: AttributeSet) : super(context, attributeSet)

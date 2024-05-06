@@ -1,16 +1,16 @@
 package com.example.quizgame
 
 import android.view.View
-import com.example.quizgame.presentation.Actions
-import com.example.quizgame.presentation.UiState
+import com.example.quizgame.presentation.game.Actions
+import com.example.quizgame.presentation.game.GameUiState
 import com.example.quizgame.views.action.ActionUiState
 import com.example.quizgame.views.action.UpdateActionButton
 import com.example.quizgame.views.choice.ChoiceButtonAction
-import com.example.quizgame.views.question.UpdateText
+import com.example.quizgame.views.question.UpdateQuestionText
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
-class ActionUiStateTest {
+class ActionGameUiStateTest {
 
     @Test
     fun testNoneUiState() {
@@ -53,7 +53,7 @@ class ActionUiStateTest {
         val check = ActionUiState.Check
         val viewModel = FakeViewModel()
         val actual = check.handleAction(viewModel)
-        val expected = FakeUiState("1")
+        val expected = FakeGameUiState("1")
         assertEquals(expected, actual)
     }
 
@@ -62,26 +62,26 @@ class ActionUiStateTest {
         val check = ActionUiState.Next
         val viewModel = FakeViewModel()
         val actual = check.handleAction(viewModel)
-        val expected = FakeUiState("2")
+        val expected = FakeGameUiState("2")
         assertEquals(expected, actual)
     }
 }
 
 private class FakeViewModel : Actions {
 
-    override fun check(): UiState {
-        return FakeUiState("1")
+    override fun check(): GameUiState {
+        return FakeGameUiState("1")
     }
 
-    override fun next(): UiState {
-        return FakeUiState("2")
+    override fun next(): GameUiState {
+        return FakeGameUiState("2")
     }
 }
 
-private data class FakeUiState(private val id: String) : UiState {
+private data class FakeGameUiState(private val id: String) : GameUiState {
 
     override fun update(
-        updateText: UpdateText,
+        questionTextView: UpdateQuestionText,
         choiceButtonOne: ChoiceButtonAction,
         choiceButtonTwo: ChoiceButtonAction,
         choiceButtonThree: ChoiceButtonAction,

@@ -1,32 +1,33 @@
-package com.example.quizgame.presentation
+package com.example.quizgame.presentation.game
 
 import com.example.quizgame.views.action.ActionUiState
 import com.example.quizgame.views.action.UpdateActionButton
 import com.example.quizgame.views.choice.ChoiceButtonAction
 import com.example.quizgame.views.choice.ChoiceUiState
 import com.example.quizgame.views.question.QuestionUiState
-import com.example.quizgame.views.question.UpdateText
+import com.example.quizgame.views.question.UpdateQuestionText
 
-interface UiState {
+interface GameUiState {
 
     fun update(
-        updateText: UpdateText,
+        questionTextView: UpdateQuestionText,
         choiceButtonOne: ChoiceButtonAction,
         choiceButtonTwo: ChoiceButtonAction,
         choiceButtonThree: ChoiceButtonAction,
         choiceButtonFour: ChoiceButtonAction,
         actionButton: UpdateActionButton
-    )
+    ) = Unit
 
-    object Empty : UiState {
-        override fun update(
-            updateText: UpdateText,
-            choiceButtonOne: ChoiceButtonAction,
-            choiceButtonTwo: ChoiceButtonAction,
-            choiceButtonThree: ChoiceButtonAction,
-            choiceButtonFour: ChoiceButtonAction,
-            actionButton: UpdateActionButton
-        ) = Unit
+    fun navigate(navigation: () -> Unit) = Unit
+
+
+    object Empty : GameUiState
+
+    object GoToStatistics : GameUiState {
+
+        override fun navigate(navigation: () -> Unit) {
+            navigation.invoke()
+        }
     }
 
     abstract class Abstract(
@@ -35,9 +36,9 @@ interface UiState {
         private val choiceThreeUiState: ChoiceUiState,
         private val choiceFourUiState: ChoiceUiState,
         private val actionUiState: ActionUiState
-    ) : UiState {
+    ) : GameUiState {
         override fun update(
-            updateText: UpdateText,
+            questionTextView: UpdateQuestionText,
             choiceButtonOne: ChoiceButtonAction,
             choiceButtonTwo: ChoiceButtonAction,
             choiceButtonThree: ChoiceButtonAction,
@@ -67,7 +68,7 @@ interface UiState {
         actionUiState
     ) {
         override fun update(
-            updateText: UpdateText,
+            questionTextView: UpdateQuestionText,
             choiceButtonOne: ChoiceButtonAction,
             choiceButtonTwo: ChoiceButtonAction,
             choiceButtonThree: ChoiceButtonAction,
@@ -75,14 +76,14 @@ interface UiState {
             actionButton: UpdateActionButton
         ) {
             super.update(
-                updateText,
+                questionTextView,
                 choiceButtonOne,
                 choiceButtonTwo,
                 choiceButtonThree,
                 choiceButtonFour,
                 actionButton
             )
-            questionUiState.show(updateText)
+            questionUiState.show(questionTextView)
         }
     }
 

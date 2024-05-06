@@ -3,8 +3,8 @@ package com.example.quizgame
 import com.example.quizgame.data.CheckResult
 import com.example.quizgame.data.QuestionAndChoices
 import com.example.quizgame.data.Repository
-import com.example.quizgame.presentation.MainViewModel
-import com.example.quizgame.presentation.UiState
+import com.example.quizgame.presentation.game.GameUiState
+import com.example.quizgame.presentation.game.GameViewModel
 import com.example.quizgame.views.action.ActionUiState
 import com.example.quizgame.views.choice.ChoiceUiState
 import com.example.quizgame.views.question.QuestionUiState
@@ -12,23 +12,23 @@ import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 
-class MainViewModelTest {
+class GameViewModelTest {
 
-    private lateinit var viewModel: MainViewModel
+    private lateinit var viewModel: GameViewModel
     private lateinit var repository: FakeRepository
 
     @Before
     fun setup() {
         repository = FakeRepository()
-        viewModel = MainViewModel(
+        viewModel = GameViewModel(
             repository = repository
         )
     }
 
     @Test
     fun caseNumberOne() {
-        var actualUiState: UiState = viewModel.init()
-        var expectedUiState: UiState = UiState.Question(
+        var actualGameUiState: GameUiState = viewModel.init()
+        var expectedGameUiState: GameUiState = GameUiState.Question(
             questionUiState = QuestionUiState.Base(value = "question number 1"),
             choiceOneUiState = ChoiceUiState.AvailableToChoose(value = "q1 choice 1"),
             choiceTwoUiState = ChoiceUiState.AvailableToChoose(value = "q1 choice 2"),
@@ -36,30 +36,30 @@ class MainViewModelTest {
             choiceFourUiState = ChoiceUiState.AvailableToChoose(value = "q1 choice 4"),
             actionUiState = ActionUiState.None
         )
-        assertEquals(expectedUiState, actualUiState)
+        assertEquals(expectedGameUiState, actualGameUiState)
 
-        actualUiState = viewModel.chooseFirst()
-        expectedUiState = UiState.ChoiceMade(
+        actualGameUiState = viewModel.chooseFirst()
+        expectedGameUiState = GameUiState.ChoiceMade(
             choiceOneUiState = ChoiceUiState.ChoiceMade,
             choiceTwoUiState = ChoiceUiState.Empty,
             choiceThreeUiState = ChoiceUiState.Empty,
             choiceFourUiState = ChoiceUiState.Empty,
             actionUiState = ActionUiState.Check
         )
-        assertEquals(expectedUiState, actualUiState)
+        assertEquals(expectedGameUiState, actualGameUiState)
 
-        actualUiState = viewModel.check()
-        expectedUiState = UiState.Correct(
+        actualGameUiState = viewModel.check()
+        expectedGameUiState = GameUiState.Correct(
             choiceOneUiState = ChoiceUiState.Correct,
             choiceTwoUiState = ChoiceUiState.NotAvailable,
             choiceThreeUiState = ChoiceUiState.NotAvailable,
             choiceFourUiState = ChoiceUiState.NotAvailable,
             actionUiState = ActionUiState.Next
         )
-        assertEquals(expectedUiState, actualUiState)
+        assertEquals(expectedGameUiState, actualGameUiState)
 
-        actualUiState = viewModel.next()
-        expectedUiState = UiState.Question(
+        actualGameUiState = viewModel.next()
+        expectedGameUiState = GameUiState.Question(
             questionUiState = QuestionUiState.Base(value = "question number 2"),
             choiceOneUiState = ChoiceUiState.AvailableToChoose(value = "q2 choice 1"),
             choiceTwoUiState = ChoiceUiState.AvailableToChoose(value = "q2 choice 2"),
@@ -67,13 +67,13 @@ class MainViewModelTest {
             choiceFourUiState = ChoiceUiState.AvailableToChoose(value = "q2 choice 4"),
             actionUiState = ActionUiState.None
         )
-        assertEquals(expectedUiState, actualUiState)
+        assertEquals(expectedGameUiState, actualGameUiState)
     }
 
     @Test
     fun caseNumberTwo() {
-        var actualUiState: UiState = viewModel.init()
-        var expectedUiState: UiState = UiState.Question(
+        var actualGameUiState: GameUiState = viewModel.init()
+        var expectedGameUiState: GameUiState = GameUiState.Question(
             questionUiState = QuestionUiState.Base(value = "question number 1"),
             choiceOneUiState = ChoiceUiState.AvailableToChoose(value = "q1 choice 1"),
             choiceTwoUiState = ChoiceUiState.AvailableToChoose(value = "q1 choice 2"),
@@ -81,30 +81,30 @@ class MainViewModelTest {
             choiceFourUiState = ChoiceUiState.AvailableToChoose(value = "q1 choice 4"),
             actionUiState = ActionUiState.None
         )
-        assertEquals(expectedUiState, actualUiState)
+        assertEquals(expectedGameUiState, actualGameUiState)
 
-        actualUiState = viewModel.chooseSecond()
-        expectedUiState = UiState.ChoiceMade(
+        actualGameUiState = viewModel.chooseSecond()
+        expectedGameUiState = GameUiState.ChoiceMade(
             choiceOneUiState = ChoiceUiState.Empty,
             choiceTwoUiState = ChoiceUiState.ChoiceMade,
             choiceThreeUiState = ChoiceUiState.Empty,
             choiceFourUiState = ChoiceUiState.Empty,
             actionUiState = ActionUiState.Check
         )
-        assertEquals(expectedUiState, actualUiState)
+        assertEquals(expectedGameUiState, actualGameUiState)
 
-        actualUiState = viewModel.check()
-        expectedUiState = UiState.Incorrect(
+        actualGameUiState = viewModel.check()
+        expectedGameUiState = GameUiState.Incorrect(
             choiceOneUiState = ChoiceUiState.Correct,
             choiceTwoUiState = ChoiceUiState.Incorrect,
             choiceThreeUiState = ChoiceUiState.NotAvailable,
             choiceFourUiState = ChoiceUiState.NotAvailable,
             actionUiState = ActionUiState.Next
         )
-        assertEquals(expectedUiState, actualUiState)
+        assertEquals(expectedGameUiState, actualGameUiState)
 
-        actualUiState = viewModel.next()
-        expectedUiState = UiState.Question(
+        actualGameUiState = viewModel.next()
+        expectedGameUiState = GameUiState.Question(
             questionUiState = QuestionUiState.Base(value = "question number 2"),
             choiceOneUiState = ChoiceUiState.AvailableToChoose(value = "q2 choice 1"),
             choiceTwoUiState = ChoiceUiState.AvailableToChoose(value = "q2 choice 2"),
@@ -112,13 +112,13 @@ class MainViewModelTest {
             choiceFourUiState = ChoiceUiState.AvailableToChoose(value = "q2 choice 4"),
             actionUiState = ActionUiState.None
         )
-        assertEquals(expectedUiState, actualUiState)
+        assertEquals(expectedGameUiState, actualGameUiState)
     }
 
     @Test
     fun caseNumberThree() {
-        var actualUiState: UiState = viewModel.init()
-        var expectedUiState: UiState = UiState.Question(
+        var actualGameUiState: GameUiState = viewModel.init()
+        var expectedGameUiState: GameUiState = GameUiState.Question(
             questionUiState = QuestionUiState.Base(value = "question number 1"),
             choiceOneUiState = ChoiceUiState.AvailableToChoose(value = "q1 choice 1"),
             choiceTwoUiState = ChoiceUiState.AvailableToChoose(value = "q1 choice 2"),
@@ -126,47 +126,47 @@ class MainViewModelTest {
             choiceFourUiState = ChoiceUiState.AvailableToChoose(value = "q1 choice 4"),
             actionUiState = ActionUiState.None
         )
-        assertEquals(expectedUiState, actualUiState)
+        assertEquals(expectedGameUiState, actualGameUiState)
 
-        actualUiState = viewModel.chooseFirst()
-        expectedUiState = UiState.ChoiceMade(
+        actualGameUiState = viewModel.chooseFirst()
+        expectedGameUiState = GameUiState.ChoiceMade(
             choiceOneUiState = ChoiceUiState.ChoiceMade,
             choiceTwoUiState = ChoiceUiState.Empty,
             choiceThreeUiState = ChoiceUiState.Empty,
             choiceFourUiState = ChoiceUiState.Empty,
             actionUiState = ActionUiState.Check
         )
-        assertEquals(expectedUiState, actualUiState)
+        assertEquals(expectedGameUiState, actualGameUiState)
 
-        actualUiState = viewModel.chooseSecond()
-        expectedUiState = UiState.ChoiceMade(
+        actualGameUiState = viewModel.chooseSecond()
+        expectedGameUiState = GameUiState.ChoiceMade(
             choiceOneUiState = ChoiceUiState.Empty,
             choiceTwoUiState = ChoiceUiState.ChoiceMade,
             choiceThreeUiState = ChoiceUiState.Empty,
             choiceFourUiState = ChoiceUiState.Empty,
             actionUiState = ActionUiState.Check
         )
-        assertEquals(expectedUiState, actualUiState)
+        assertEquals(expectedGameUiState, actualGameUiState)
 
-        actualUiState = viewModel.chooseThird()
-        expectedUiState = UiState.ChoiceMade(
+        actualGameUiState = viewModel.chooseThird()
+        expectedGameUiState = GameUiState.ChoiceMade(
             choiceOneUiState = ChoiceUiState.Empty,
             choiceTwoUiState = ChoiceUiState.Empty,
             choiceThreeUiState = ChoiceUiState.ChoiceMade,
             choiceFourUiState = ChoiceUiState.Empty,
             actionUiState = ActionUiState.Check
         )
-        assertEquals(expectedUiState, actualUiState)
+        assertEquals(expectedGameUiState, actualGameUiState)
 
-        actualUiState = viewModel.chooseFourth()
-        expectedUiState = UiState.ChoiceMade(
+        actualGameUiState = viewModel.chooseFourth()
+        expectedGameUiState = GameUiState.ChoiceMade(
             choiceOneUiState = ChoiceUiState.Empty,
             choiceTwoUiState = ChoiceUiState.Empty,
             choiceThreeUiState = ChoiceUiState.Empty,
             choiceFourUiState = ChoiceUiState.ChoiceMade,
             actionUiState = ActionUiState.Check
         )
-        assertEquals(expectedUiState, actualUiState)
+        assertEquals(expectedGameUiState, actualGameUiState)
     }
 }
 
@@ -216,5 +216,9 @@ private class FakeRepository : Repository {
     override fun next() {
         currentIndex++
         userChoiceIndex = -1
+    }
+
+    override fun noMoreQuestions(): Boolean {
+        TODO("Not yet implemented")
     }
 }

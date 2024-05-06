@@ -5,6 +5,7 @@ import android.widget.TextView
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers
@@ -22,8 +23,8 @@ class QuestionUi(
                 ViewMatchers.withText(text),
                 ViewMatchers.isAssignableFrom(TextView::class.java),
                 parent,
-                ViewMatchers.withParent(ViewMatchers.withId(rootId)),
+                ViewMatchers.withParent(withId(rootId)),
             )
-        ).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        ).check(ViewAssertions.matches(isDisplayed()))
     }
 }

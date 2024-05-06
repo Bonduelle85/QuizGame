@@ -2,16 +2,16 @@ package com.example.quizgame.views.question
 
 
 interface QuestionUiState {
-    fun show(textView: UpdateText)
+    fun show(textView: UpdateQuestionText)
 
     data class Base(private val value: String) : QuestionUiState {
-        override fun show(textView: UpdateText) {
+        override fun show(textView: UpdateQuestionText) {
             textView.update(value)
         }
     }
 }
 
-interface UpdateText {
+interface UpdateQuestionText {
 
     fun update(text: String)
 }

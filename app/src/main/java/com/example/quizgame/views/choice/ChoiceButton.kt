@@ -53,5 +53,5 @@ interface ChoiceButtonAction{
     fun updateUiState(outer: ChoiceUiState)
 
     fun updateText(text: String)
-    fun updateUi(@ColorRes colorResId: Int,clickable: Boolean)
+    fun updateUi(@ColorRes colorResId: Int, clickable: Boolean)
 }

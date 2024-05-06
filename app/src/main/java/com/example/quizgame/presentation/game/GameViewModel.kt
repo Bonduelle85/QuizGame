@@ -1,4 +1,4 @@
-package com.example.quizgame.presentation
+package com.example.quizgame.presentation.game
 
 import com.example.quizgame.data.CheckResult
 import com.example.quizgame.data.Repository
@@ -6,14 +6,14 @@ import com.example.quizgame.views.action.ActionUiState
 import com.example.quizgame.views.choice.ChoiceUiState
 import com.example.quizgame.views.question.QuestionUiState
 
-class MainViewModel(
+class GameViewModel(
     private val repository: Repository
 ) : Actions {
 
-    fun init(isFirstTime: Boolean = true): UiState {
+    fun init(isFirstTime: Boolean = true): GameUiState {
         return if (isFirstTime) {
             val data = repository.questionAndChoices()
-            UiState.Question(
+            GameUiState.Question(
                 QuestionUiState.Base(data.question),
                 ChoiceUiState.AvailableToChoose(data.choiceOne),
                 ChoiceUiState.AvailableToChoose(data.choiceTwo),
@@ -22,13 +22,13 @@ class MainViewModel(
                 ActionUiState.None
             )
         } else {
-            UiState.Empty
+            GameUiState.Empty
         }
     }
 
-    fun chooseFirst(): UiState {
+    fun chooseFirst(): GameUiState {
         repository.chooseFirst()
-        return UiState.ChoiceMade(
+        return GameUiState.ChoiceMade(
             choiceOneUiState = ChoiceUiState.ChoiceMade,
             choiceTwoUiState = ChoiceUiState.Empty,
             choiceThreeUiState = ChoiceUiState.Empty,
@@ -37,9 +37,9 @@ class MainViewModel(
         )
     }
 
-    fun chooseSecond(): UiState {
+    fun chooseSecond(): GameUiState {
         repository.chooseSecond()
-        return UiState.ChoiceMade(
+        return GameUiState.ChoiceMade(
             choiceOneUiState = ChoiceUiState.Empty,
             choiceTwoUiState = ChoiceUiState.ChoiceMade,
             choiceThreeUiState = ChoiceUiState.Empty,
@@ -48,9 +48,9 @@ class MainViewModel(
         )
     }
 
-    fun chooseThird(): UiState {
+    fun chooseThird(): GameUiState {
         repository.chooseThird()
-        return UiState.ChoiceMade(
+        return GameUiState.ChoiceMade(
             choiceOneUiState = ChoiceUiState.Empty,
             choiceTwoUiState = ChoiceUiState.Empty,
             choiceThreeUiState = ChoiceUiState.ChoiceMade,
@@ -59,9 +59,9 @@ class MainViewModel(
         )
     }
 
-    fun chooseFourth(): UiState {
+    fun chooseFourth(): GameUiState {
         repository.chooseFourth()
-        return UiState.ChoiceMade(
+        return GameUiState.ChoiceMade(
             choiceOneUiState = ChoiceUiState.Empty,
             choiceTwoUiState = ChoiceUiState.Empty,
             choiceThreeUiState = ChoiceUiState.Empty,
@@ -70,10 +70,10 @@ class MainViewModel(
         )
     }
 
-    override fun check(): UiState {
+    override fun check(): GameUiState {
         when (val result = repository.check()) {
             is CheckResult.Correct -> {
-                return UiState.Correct(
+                return GameUiState.Correct(
                     choiceOneUiState = if (result.correctIndex == 0) ChoiceUiState.Correct else ChoiceUiState.NotAvailable,
                     choiceTwoUiState = if (result.correctIndex == 1) ChoiceUiState.Correct else ChoiceUiState.NotAvailable,
                     choiceThreeUiState = if (result.correctIndex == 2) ChoiceUiState.Correct else ChoiceUiState.NotAvailable,
@@ -83,7 +83,7 @@ class MainViewModel(
             }
 
             is CheckResult.Incorrect -> {
-                return UiState.Incorrect(
+                return GameUiState.Incorrect(
                     choiceOneUiState = if (result.correctIndex == 0)
                         ChoiceUiState.Correct
                     else if (result.incorrectIndex == 0)
@@ -116,13 +116,16 @@ class MainViewModel(
         }
     }
 
-    override fun next(): UiState {
+    override fun next(): GameUiState {
         repository.next()
-        return init()
+        return if (repository.noMoreQuestions()) {
+            GameUiState.GoToStatistics
+        } else
+            init()
     }
 }
 
 interface Actions {
-    fun check(): UiState
-    fun next(): UiState
+    fun check(): GameUiState
+    fun next(): GameUiState
 }

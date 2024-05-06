@@ -3,15 +3,15 @@ package com.example.quizgame
 import android.view.View
 import androidx.appcompat.widget.AppCompatButton
 import androidx.test.espresso.Espresso
-import androidx.test.espresso.assertion.ViewAssertions
+import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers
 
 class ActionButtonUi(
-    private val parent: Matcher<View>,
-    private val rootId: Int
+    parent: Matcher<View>,
+    rootId: Int
 ) {
 
     private val actionButtonId: Int = R.id.actionButton
@@ -25,17 +25,17 @@ class ActionButtonUi(
     )
 
     fun checkQuestionState() {
-        interaction.check(ViewAssertions.matches(Matchers.not(ViewMatchers.isDisplayed())))
+        interaction.check(matches(Matchers.not(ViewMatchers.isDisplayed())))
     }
 
     fun checkStateIsCheck() {
         interaction
-            .check(ViewAssertions.matches(withText(R.string.check)))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+            .check(matches(withText(R.string.check)))
+            .check(matches(ViewMatchers.isDisplayed()))
     }
 
     fun checkStateIsNext() {
-        interaction.check(ViewAssertions.matches(withText(R.string.next)))
+        interaction.check(matches(withText(R.string.next)))
     }
 
     fun click() {

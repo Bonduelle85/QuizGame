@@ -5,8 +5,8 @@ import android.os.Parcelable
 import android.util.AttributeSet
 import androidx.annotation.StringRes
 import androidx.appcompat.widget.AppCompatButton
-import com.example.quizgame.presentation.Actions
-import com.example.quizgame.presentation.UiState
+import com.example.quizgame.presentation.game.Actions
+import com.example.quizgame.presentation.game.GameUiState
 
 class ActionButton : AppCompatButton, UpdateActionButton {
 
@@ -20,7 +20,7 @@ class ActionButton : AppCompatButton, UpdateActionButton {
         defStyleAttrs
     )
 
-    fun handleAction(viewModel: Actions): UiState = uiState.handleAction(viewModel)
+    fun handleAction(viewModel: Actions): GameUiState = uiState.handleAction(viewModel)
 
     override fun updateUiState(outer: ActionUiState) {
         uiState = outer

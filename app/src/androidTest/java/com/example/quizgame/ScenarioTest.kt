@@ -2,7 +2,6 @@ package com.example.quizgame
 
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.example.quizgame.presentation.MainActivity
 import org.junit.Assert.*
 import org.junit.Rule
 import org.junit.Test

@@ -9,8 +9,11 @@ interface Repository {
     fun chooseFourth()
     fun check(): CheckResult
     fun next()
+    fun noMoreQuestions(): Boolean
 
     class Base(
+        private val corrects: IntCache,
+        private val incorrects: IntCache,
         private val currentIndex: IntCache,
         private val userChoiceIndex: IntCache,
     ) : Repository {
@@ -67,13 +70,16 @@ interface Repository {
 
         override fun check(): CheckResult {
             val correctIndex = answersList[currentIndex.read()]
-            return if (userChoiceIndex.read() == correctIndex)
+            return if (userChoiceIndex.read() == correctIndex) {
+                corrects.save(corrects.read() + 1)
                 CheckResult.Correct(correctIndex = correctIndex)
-            else
+            } else {
+                incorrects.save(incorrects.read() + 1)
                 CheckResult.Incorrect(
                     correctIndex = correctIndex,
                     incorrectIndex = userChoiceIndex.read()
                 )
+            }
         }
 
         override fun next() {
@@ -81,9 +87,14 @@ interface Repository {
             val new = current + 1
             currentIndex.save(new)
 
-            if (currentIndex.read() == questionAndChoicesList.size)
-                currentIndex.save(0)
             userChoiceIndex.save(-1)
+        }
+
+        override fun noMoreQuestions(): Boolean {
+            val noMore = currentIndex.read() == questionAndChoicesList.size
+            if (noMore)
+                currentIndex.save(0)
+            return noMore
         }
     }
 }

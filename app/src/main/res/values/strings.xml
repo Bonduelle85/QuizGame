@@ -2,4 +2,7 @@
     <string name="app_name">QuizGame</string>
     <string name="check">Check</string>
     <string name="next">Next</string>
+    <string name="statistics">Statistics</string>
+    <string name="new_game">New game</string>
+    <string name="statistics_values">Corrects: %d\nIncorrects: %d</string>
 </resources>

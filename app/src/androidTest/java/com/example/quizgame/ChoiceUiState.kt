@@ -5,7 +5,7 @@ import com.example.quizgame.views.choice.ChoiceUiState
 import org.junit.Assert
 import org.junit.Test
 
-class ChoiceUiStateTest {
+class ChoiceGameUiStateTest {
 
     @Test
     fun testAvailableToChoose() {
@@ -55,11 +55,8 @@ private class FakeChoiceButtonAction: ChoiceButtonAction {
         actualText = text
     }
 
-    override fun updateBackgroundColor(colorResId: Int) {
+    override fun updateUi(colorResId: Int, clickable: Boolean) {
         actualBackgroundColor = colorResId
-    }
-
-    override fun updateClickable(clickable: Boolean) {
         actualIsClickable = clickable
     }
 }
