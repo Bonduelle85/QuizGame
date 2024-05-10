@@ -28,7 +28,7 @@ class GameFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         lateinit var uiState: GameUiState
 
-        val viewModel = (requireActivity().application as QuizApp).gamrViewModel
+        val viewModel = (requireActivity().application as QuizApp).gameViewModel
 
         val showUi: () -> Unit = {
             uiState.update(

@@ -10,8 +10,10 @@ interface Repository {
     fun check(): CheckResult
     fun next()
     fun noMoreQuestions(): Boolean
+    fun saveCurrentScreenIsGame()
 
     class Base(
+        private val isLastScreenGame: BooleanCache,
         private val corrects: IntCache,
         private val incorrects: IntCache,
         private val currentIndex: IntCache,
@@ -95,6 +97,10 @@ interface Repository {
             if (noMore)
                 currentIndex.save(0)
             return noMore
+        }
+
+        override fun saveCurrentScreenIsGame() {
+            isLastScreenGame.save(true)
         }
     }
 }

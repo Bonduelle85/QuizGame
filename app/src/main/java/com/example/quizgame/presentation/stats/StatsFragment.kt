@@ -30,15 +30,16 @@ class StatsFragment : Fragment() {
 
         val viewModel = (requireActivity().application as QuizApp).statsViewModel
 
-        if (savedInstanceState == null) {
-            val stats = viewModel.statistics()
-            binding.statisticsTextView.text =
-                getString(R.string.statistics_values, stats.corrects, stats.incorrects)
-        }
+        val stats = viewModel.statistics()
+        binding.statisticsTextView.text =
+            getString(R.string.statistics_values, stats.corrects, stats.incorrects)
 
         binding.newGameButton.setOnClickListener {
+            viewModel.clear()
             (requireActivity() as Navigation).navigate(GameFragment())
         }
+
+        viewModel.init()
     }
 
     override fun onDestroyView() {

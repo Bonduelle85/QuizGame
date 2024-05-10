@@ -12,6 +12,7 @@ class GameViewModel(
 
     fun init(isFirstTime: Boolean = true): GameUiState {
         return if (isFirstTime) {
+            repository.saveCurrentScreenIsGame()
             val data = repository.questionAndChoices()
             GameUiState.Question(
                 QuestionUiState.Base(data.question),
