@@ -30,11 +30,9 @@ interface Navigation {
 
 interface Screen {
 
-    fun show(containerId: Int, fragmentManager: FragmentManager)
+    fun show(containerId: Int, fragmentManager: FragmentManager) = Unit
 
-    object Empty : Screen {
-        override fun show(containerId: Int, fragmentManager: FragmentManager) = Unit
-    }
+    object Empty : Screen
 
     abstract class Replace : Screen {
 

@@ -219,6 +219,10 @@ private class FakeRepository : Repository {
     }
 
     override fun noMoreQuestions(): Boolean {
-        TODO("Not yet implemented")
+        return true
+    }
+
+    override fun saveCurrentScreenIsGame() {
+        //todo
     }
 }
