@@ -1,5 +1,9 @@
 package com.example.quizgame.data
 
+import com.example.quizgame.data.core.IntCache
+import com.example.quizgame.data.core.StringCache
+import com.example.quizgame.presentation.game.GameScreen
+
 interface Repository {
 
     fun questionAndChoices(): QuestionAndChoices
@@ -13,7 +17,7 @@ interface Repository {
     fun saveCurrentScreenIsGame()
 
     class Base(
-        private val isLastScreenGame: BooleanCache,
+        private val lastScreen: StringCache,
         private val corrects: IntCache,
         private val incorrects: IntCache,
         private val currentIndex: IntCache,
@@ -100,7 +104,7 @@ interface Repository {
         }
 
         override fun saveCurrentScreenIsGame() {
-            isLastScreenGame.save(true)
+            lastScreen.save(GameScreen::class.java.canonicalName)
         }
     }
 }

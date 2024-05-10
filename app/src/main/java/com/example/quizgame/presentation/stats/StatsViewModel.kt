@@ -1,7 +1,7 @@
 package com.example.quizgame.presentation.stats
 
-import com.example.quizgame.data.BooleanCache
-import com.example.quizgame.data.IntCache
+import com.example.quizgame.data.core.IntCache
+import com.example.quizgame.data.core.StringCache
 
 class StatsViewModel(
     private val repository: StatsRepository
@@ -28,7 +28,7 @@ interface StatsRepository {
     fun saveLastScreenIsStats()
 
     class Base(
-        private val isLastScreenGame: BooleanCache,
+        private val lastScreen: StringCache,
         private val corrects: IntCache,
         private val incorrects: IntCache,
     ) : StatsRepository {
@@ -43,7 +43,7 @@ interface StatsRepository {
         }
 
         override fun saveLastScreenIsStats() {
-            isLastScreenGame.save(false)
+            lastScreen.save(StatsScreen::class.java.canonicalName)
         }
     }
 }

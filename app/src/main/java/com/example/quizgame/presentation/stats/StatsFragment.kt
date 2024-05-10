@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import com.example.quizgame.QuizApp
 import com.example.quizgame.R
 import com.example.quizgame.databinding.FragmentStatisticsBinding
-import com.example.quizgame.presentation.game.GameFragment
+import com.example.quizgame.presentation.game.GameScreen
 import com.example.quizgame.presentation.main.Navigation
 
 class StatsFragment : Fragment() {
@@ -36,7 +36,7 @@ class StatsFragment : Fragment() {
 
         binding.newGameButton.setOnClickListener {
             viewModel.clear()
-            (requireActivity() as Navigation).navigate(GameFragment())
+            (requireActivity() as Navigation).navigate(GameScreen)
         }
 
         viewModel.init()

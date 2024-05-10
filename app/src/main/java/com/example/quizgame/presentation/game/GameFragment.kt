@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import com.example.quizgame.QuizApp
 import com.example.quizgame.databinding.FragmentGameBinding
 import com.example.quizgame.presentation.main.Navigation
-import com.example.quizgame.presentation.stats.StatsFragment
+import com.example.quizgame.presentation.stats.StatsScreen
 
 class GameFragment : Fragment() {
 
@@ -65,7 +65,7 @@ class GameFragment : Fragment() {
             uiState = binding.actionButton.handleAction(viewModel)
             showUi.invoke()
             uiState.navigate {
-                (requireActivity() as Navigation).navigate(StatsFragment())
+                (requireActivity() as Navigation).navigate(StatsScreen)
             }
         }
 

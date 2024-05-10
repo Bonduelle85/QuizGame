@@ -1,4 +1,4 @@
-package com.example.quizgame.data
+package com.example.quizgame.data.core
 
 interface BooleanCache {
 

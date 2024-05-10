@@ -6,9 +6,10 @@ class MainViewModel(
     private val mainRepository: MainRepository
 ) {
 
-    fun init(firstRun: Boolean): Boolean? {
-        return if (firstRun) {
-            mainRepository.lastScreenIsGame()
-        } else null
+    fun init(firstRun: Boolean): Screen {
+        return if (firstRun)
+            mainRepository.lastSavedScreen()
+        else
+            Screen.Empty
     }
 }
