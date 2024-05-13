@@ -2,13 +2,14 @@ package com.example.quizgame.presentation.game
 
 import com.example.quizgame.data.CheckResult
 import com.example.quizgame.data.Repository
+import com.example.quizgame.presentation.main.MyViewModel
 import com.example.quizgame.views.action.ActionUiState
 import com.example.quizgame.views.choice.ChoiceUiState
 import com.example.quizgame.views.question.QuestionUiState
 
 class GameViewModel(
     private val repository: Repository
-) : Actions {
+) : MyViewModel, Actions {
 
     fun init(isFirstTime: Boolean = true): GameUiState {
         return if (isFirstTime) {
@@ -127,6 +128,8 @@ class GameViewModel(
 }
 
 interface Actions {
+
     fun check(): GameUiState
+
     fun next(): GameUiState
 }

@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.example.quizgame.ProvideGameViewModel
+import com.example.quizgame.ManageViewModels
 import com.example.quizgame.databinding.FragmentGameBinding
 
 class GameFragment : Fragment() {
@@ -26,8 +26,8 @@ class GameFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         lateinit var uiState: GameUiState
 
-        val provideGameViewModel = requireActivity().application as ProvideGameViewModel
-        val viewModel = provideGameViewModel.gameViewModel()
+        val manageViewModels = activity as ManageViewModels
+        val viewModel = manageViewModels.viewModel(GameViewModel::class.java)
 
         val showUi: () -> Unit = {
             uiState.update(
@@ -64,7 +64,7 @@ class GameFragment : Fragment() {
             uiState = binding.actionButton.handleAction(viewModel)
             showUi.invoke()
             uiState.navigate {
-                provideGameViewModel.clearGameViewModel()
+                manageViewModels.clear(GameViewModel::class.java)
                 (requireActivity() as GameNavigation).navigateFromGameScreen()
             }
         }

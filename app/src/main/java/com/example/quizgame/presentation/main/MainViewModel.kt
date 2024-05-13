@@ -4,7 +4,7 @@ import com.example.quizgame.data.MainRepository
 
 class MainViewModel(
     private val mainRepository: MainRepository
-) {
+) : MyViewModel {
 
     fun init(firstRun: Boolean): Screen {
         return if (firstRun)
@@ -13,3 +13,5 @@ class MainViewModel(
             Screen.Empty
     }
 }
+
+interface MyViewModel

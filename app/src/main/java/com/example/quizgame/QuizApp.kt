@@ -10,25 +10,99 @@ import com.example.quizgame.data.core.StringCache
 import com.example.quizgame.presentation.game.GameScreen
 import com.example.quizgame.presentation.game.GameViewModel
 import com.example.quizgame.presentation.main.MainViewModel
+import com.example.quizgame.presentation.main.MyViewModel
 import com.example.quizgame.presentation.stats.StatsRepository
 import com.example.quizgame.presentation.stats.StatsViewModel
 
-class QuizApp : Application(), ProvideViewModels {
+class QuizApp : Application(), ManageViewModels {
 
-    private var mainViewModel: MainViewModel? = null
-    private var gameViewModel: GameViewModel? = null
-    private var statsViewModel: StatsViewModel? = null
-
-    private lateinit var lastScreen: StringCache
-    private lateinit var corrects: IntCache
-    private lateinit var incorrects: IntCache
-    private lateinit var permanentStorage: PermanentStorage
+    private lateinit var factory: ManageViewModels
 
     override fun onCreate() {
         super.onCreate()
-        val name = getString(R.string.app_name)
+        factory = ProvideViewModel.Factory(ProvideViewModel.Make(Core(this)))
+    }
+
+    override fun clear(clazz: Class<out MyViewModel>) {
+        factory.clear(clazz)
+    }
+
+    override fun <T : MyViewModel> viewModel(clazz: Class<T>): T {
+        return factory.viewModel(clazz)
+    }
+}
+
+interface ClearViewModel {
+
+    fun clear(clazz: Class<out MyViewModel>)
+}
+
+interface ManageViewModels : ClearViewModel, ProvideViewModel
+
+interface ProvideViewModel {
+
+    fun <T : MyViewModel> viewModel(clazz: Class<T>): T
+
+    class Factory(
+        private val make: ProvideViewModel
+    ) : ManageViewModels {
+
+        private val mutableMap = mutableMapOf<Class<out MyViewModel>, MyViewModel?>()
+
+        override fun clear(clazz: Class<out MyViewModel>) {
+            mutableMap[clazz] = null
+        }
+
+        override fun <T : MyViewModel> viewModel(clazz: Class<T>): T {
+            return if (mutableMap[clazz] == null) {
+                val viewModel = make.viewModel(clazz)
+                mutableMap[clazz] = viewModel
+                viewModel
+            } else
+                mutableMap[clazz] as T
+        }
+    }
+
+    class Make(private val core: Core) : ProvideViewModel {//todo use chain of responsibility to refactor
+
+        override fun <T : MyViewModel> viewModel(clazz: Class<T>): T = with(core) {
+            return when (clazz) {
+                MainViewModel::class.java -> MainViewModel(MainRepository.Base(lastScreen))
+
+                StatsViewModel::class.java -> StatsViewModel(
+                    StatsRepository.Base(
+                        lastScreen,
+                        corrects,
+                        incorrects
+                    )
+                )
+
+                GameViewModel::class.java -> GameViewModel(
+                    Repository.Base(
+                        lastScreen,
+                        corrects,
+                        incorrects,
+                        IntCache.Base("currentIndex", permanentStorage, 0),
+                        IntCache.Base("userChoiceIndex", permanentStorage, -1)
+                    )
+                )
+
+                else -> throw IllegalStateException("unknown viewModel $clazz go and add it to ProvideViewModel.Make")
+            } as T
+        }
+    }
+}
+
+class Core(context: Context) {
+    val lastScreen: StringCache
+    val corrects: IntCache
+    val incorrects: IntCache
+    val permanentStorage: PermanentStorage
+
+    init {
+        val name = context.getString(R.string.app_name)
         permanentStorage = PermanentStorage.Base(
-            getSharedPreferences(
+            context.getSharedPreferences(
                 name, Context.MODE_PRIVATE
             )
         )
@@ -38,67 +112,4 @@ class QuizApp : Application(), ProvideViewModels {
         lastScreen =
             StringCache.Base("lastScreen", permanentStorage, GameScreen::class.java.canonicalName)
     }
-
-    override fun gameViewModel(): GameViewModel {
-        if (gameViewModel == null) {
-            gameViewModel = GameViewModel(
-                Repository.Base(
-                    lastScreen,
-                    corrects,
-                    incorrects,
-                    IntCache.Base("currentIndex", permanentStorage, 0),
-                    IntCache.Base("userChoiceIndex", permanentStorage, -1)
-                )
-            )
-        }
-        return gameViewModel!!
-    }
-
-    override fun clearGameViewModel() {
-        gameViewModel = null
-    }
-
-    override fun mainViewModel(): MainViewModel {
-        if (mainViewModel == null) {
-            mainViewModel = MainViewModel(
-                MainRepository.Base(
-                    lastScreen,
-                )
-            )
-        }
-        return mainViewModel!!
-    }
-
-    override fun statsViewModel(): StatsViewModel {
-        if (statsViewModel == null) {
-            statsViewModel = StatsViewModel(
-                StatsRepository.Base(
-                    lastScreen,
-                    corrects,
-                    incorrects
-                )
-            )
-        }
-        return statsViewModel!!
-    }
-
-    override fun clearStatsViewModel() {
-        statsViewModel = null
-    }
 }
-
-interface ProvideMainViewModel {
-    fun mainViewModel(): MainViewModel
-}
-
-interface ProvideStatsViewModel {
-    fun statsViewModel(): StatsViewModel
-    fun clearStatsViewModel()
-}
-
-interface ProvideGameViewModel {
-    fun gameViewModel(): GameViewModel
-    fun clearGameViewModel()
-}
-
-interface ProvideViewModels : ProvideGameViewModel, ProvideMainViewModel, ProvideStatsViewModel

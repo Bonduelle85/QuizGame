@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.example.quizgame.ProvideStatsViewModel
+import com.example.quizgame.ManageViewModels
 import com.example.quizgame.R
 import com.example.quizgame.databinding.FragmentStatisticsBinding
 
@@ -26,8 +26,8 @@ class StatsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val provideStatsViewModel = requireActivity().application as ProvideStatsViewModel
-        val viewModel = provideStatsViewModel.statsViewModel()
+        val manageViewModels = activity as ManageViewModels
+        val viewModel = manageViewModels.viewModel(StatsViewModel::class.java)
 
         val stats = viewModel.statistics()
         binding.statisticsTextView.text =
@@ -35,7 +35,7 @@ class StatsFragment : Fragment() {
 
         binding.newGameButton.setOnClickListener {
             viewModel.clear()
-            provideStatsViewModel.clearStatsViewModel()
+            manageViewModels.clear(StatsViewModel::class.java)
             (requireActivity() as StatsNavigation).navigateFromStats()
         }
         viewModel.init()
@@ -50,3 +50,5 @@ class StatsFragment : Fragment() {
 interface StatsNavigation {
     fun navigateFromStats()
 }
+
+data class Stats(val corrects: Int, val incorrects: Int)

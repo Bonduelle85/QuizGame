@@ -2,10 +2,12 @@ package com.example.quizgame.presentation.stats
 
 import com.example.quizgame.data.core.IntCache
 import com.example.quizgame.data.core.StringCache
+import com.example.quizgame.presentation.main.MyViewModel
 
 class StatsViewModel(
     private val repository: StatsRepository
-) {
+) : MyViewModel {
+
     fun init() {
         repository.saveLastScreenIsStats()
     }
@@ -30,7 +32,7 @@ interface StatsRepository {
     class Base(
         private val lastScreen: StringCache,
         private val corrects: IntCache,
-        private val incorrects: IntCache,
+        private val incorrects: IntCache
     ) : StatsRepository {
 
         override fun corrects(): Int = corrects.read()
@@ -47,5 +49,3 @@ interface StatsRepository {
         }
     }
 }
-
-data class Stats(val corrects: Int, val incorrects: Int)

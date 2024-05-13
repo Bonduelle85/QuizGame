@@ -4,19 +4,19 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import com.example.quizgame.ProvideMainViewModel
+import com.example.quizgame.ManageViewModels
 import com.example.quizgame.R
 import com.example.quizgame.presentation.game.GameNavigation
 import com.example.quizgame.presentation.game.GameScreen
 import com.example.quizgame.presentation.stats.StatsNavigation
 import com.example.quizgame.presentation.stats.StatsScreen
 
-class MainActivity : AppCompatActivity(), Navigation {
+class MainActivity : AppCompatActivity(), Navigation, ManageViewModels {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val viewModel = (application as ProvideMainViewModel).mainViewModel()
+        val viewModel = viewModel(MainViewModel::class.java)
 
         val lastScreen = viewModel.init(savedInstanceState == null)
         navigate(lastScreen)
@@ -24,6 +24,14 @@ class MainActivity : AppCompatActivity(), Navigation {
 
     override fun navigate(screen: Screen) {
         screen.show(R.id.container, supportFragmentManager)
+    }
+
+    override fun clear(clazz: Class<out MyViewModel>) {
+        (application as ManageViewModels).clear(clazz)
+    }
+
+    override fun <T : MyViewModel> viewModel(clazz: Class<T>): T {
+        return (application as ManageViewModels).viewModel(clazz)
     }
 }
 
