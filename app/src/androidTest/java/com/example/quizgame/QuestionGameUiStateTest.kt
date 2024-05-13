@@ -1,7 +1,7 @@
 package com.example.quizgame
 
-import com.example.quizgame.views.question.QuestionUiState
-import com.example.quizgame.views.question.UpdateQuestionText
+import com.example.quizgame.core.views.question.QuestionUiState
+import com.example.quizgame.core.views.question.UpdateQuestionText
 import org.junit.Assert.assertEquals
 import org.junit.Test
 

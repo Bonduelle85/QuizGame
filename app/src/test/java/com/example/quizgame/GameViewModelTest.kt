@@ -1,13 +1,13 @@
 package com.example.quizgame
 
-import com.example.quizgame.data.CheckResult
-import com.example.quizgame.data.QuestionAndChoices
-import com.example.quizgame.data.Repository
-import com.example.quizgame.presentation.game.GameUiState
-import com.example.quizgame.presentation.game.GameViewModel
-import com.example.quizgame.views.action.ActionUiState
-import com.example.quizgame.views.choice.ChoiceUiState
-import com.example.quizgame.views.question.QuestionUiState
+import com.example.quizgame.core.data.CheckResult
+import com.example.quizgame.core.data.QuestionAndChoices
+import com.example.quizgame.core.views.action.ActionUiState
+import com.example.quizgame.core.views.choice.ChoiceUiState
+import com.example.quizgame.core.views.question.QuestionUiState
+import com.example.quizgame.game.data.GameRepository
+import com.example.quizgame.game.presentation.GameUiState
+import com.example.quizgame.game.presentation.GameViewModel
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -15,13 +15,13 @@ import org.junit.Test
 class GameViewModelTest {
 
     private lateinit var viewModel: GameViewModel
-    private lateinit var repository: FakeRepository
+    private lateinit var repository: FakeGameRepository
 
     @Before
     fun setup() {
-        repository = FakeRepository()
+        repository = FakeGameRepository()
         viewModel = GameViewModel(
-            repository = repository
+            gameRepository = repository
         )
     }
 
@@ -170,7 +170,7 @@ class GameViewModelTest {
     }
 }
 
-private class FakeRepository : Repository {
+private class FakeGameRepository : GameRepository {
 
     private val questionAndChoicesList = listOf(
         QuestionAndChoices(

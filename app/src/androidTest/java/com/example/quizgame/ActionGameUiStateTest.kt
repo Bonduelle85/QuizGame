@@ -1,12 +1,12 @@
 package com.example.quizgame
 
 import android.view.View
-import com.example.quizgame.presentation.game.Actions
-import com.example.quizgame.presentation.game.GameUiState
-import com.example.quizgame.views.action.ActionUiState
-import com.example.quizgame.views.action.UpdateActionButton
-import com.example.quizgame.views.choice.ChoiceButtonAction
-import com.example.quizgame.views.question.UpdateQuestionText
+import com.example.quizgame.core.views.action.ActionUiState
+import com.example.quizgame.core.views.action.UpdateActionButton
+import com.example.quizgame.core.views.choice.ChoiceButtonAction
+import com.example.quizgame.core.views.question.UpdateQuestionText
+import com.example.quizgame.game.presentation.Actions
+import com.example.quizgame.game.presentation.GameUiState
 import org.junit.Assert.assertEquals
 import org.junit.Test
 

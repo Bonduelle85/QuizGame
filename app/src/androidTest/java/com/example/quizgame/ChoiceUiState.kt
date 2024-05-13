@@ -1,7 +1,7 @@
 package com.example.quizgame
 
-import com.example.quizgame.views.choice.ChoiceButtonAction
-import com.example.quizgame.views.choice.ChoiceUiState
+import com.example.quizgame.core.views.choice.ChoiceButtonAction
+import com.example.quizgame.core.views.choice.ChoiceUiState
 import org.junit.Assert
 import org.junit.Test
 
