@@ -5,10 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.example.quizgame.QuizApp
+import com.example.quizgame.ProvideGameViewModel
 import com.example.quizgame.databinding.FragmentGameBinding
-import com.example.quizgame.presentation.main.Navigation
-import com.example.quizgame.presentation.stats.StatsScreen
 
 class GameFragment : Fragment() {
 
@@ -28,7 +26,8 @@ class GameFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         lateinit var uiState: GameUiState
 
-        val viewModel = (requireActivity().application as QuizApp).gameViewModel
+        val provideGameViewModel = requireActivity().application as ProvideGameViewModel
+        val viewModel = provideGameViewModel.gameViewModel()
 
         val showUi: () -> Unit = {
             uiState.update(
@@ -65,7 +64,8 @@ class GameFragment : Fragment() {
             uiState = binding.actionButton.handleAction(viewModel)
             showUi.invoke()
             uiState.navigate {
-                (requireActivity() as Navigation).navigate(StatsScreen)
+                provideGameViewModel.clearGameViewModel()
+                (requireActivity() as GameNavigation).navigateFromGameScreen()
             }
         }
 
@@ -77,4 +77,9 @@ class GameFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+}
+
+interface GameNavigation {
+
+    fun navigateFromGameScreen()
 }
