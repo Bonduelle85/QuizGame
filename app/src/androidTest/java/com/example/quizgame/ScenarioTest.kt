@@ -4,6 +4,7 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.quizgame.main.presentation.MainActivity
 import org.junit.Assert.*
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -13,6 +14,19 @@ class ScenarioTest {
 
     @get:Rule
     val activityScenarioRule = ActivityScenarioRule(MainActivity::class.java)
+
+    private lateinit var quizPage: QuizPage
+
+    @Before
+    fun setup() {
+        quizPage = QuizPage(
+            question = "What color is the sky?",
+            choice1 = "blue",
+            choice2 = "green",
+            choice3 = "yellow",
+            choice4 = "red"
+        )
+    }
 
     /**
      * TestCase N1: Correct
@@ -29,14 +43,7 @@ class ScenarioTest {
      */
     @Test
     fun caseNumberOne() {
-        var quizPage = QuizPage(
-            question = "What color is the sky?",
-            choice1 = "blue",
-            choice2 = "green",
-            choice3 = "yellow",
-            choice4 = "red"
-        )
-        quizPage.checkStateIsQuestion()
+        caseNumberFour()
 
         quizPage.clickChoiceOne()
         quizPage.checkStateIsFirstChoiceMade()
@@ -85,26 +92,19 @@ class ScenarioTest {
      */
     @Test
     fun caseNumberTwo() {
-        var quizPage = QuizPage(
-            question = "What color is the sky?",
-            choice1 = "blue",
-            choice2 = "green",
-            choice3 = "yellow",
-            choice4 = "red"
-        )
-        quizPage.checkStateIsQuestion()
+        caseNumberFour()
 
-        quizPage.clickChoiceTwo() // "green - Incorrect"
+        quizPage.clickChoiceTwo()
         quizPage.checkStateIsSecondChoiceMade()
 
         quizPage.clickCheckButton()
-        quizPage.checkIncorrectState(choice = 1, correct = 0) // выбранный - красный, правильный - зелёный
+        quizPage.checkIncorrectState(choice = 1, correct = 0)
 
         quizPage.clickChoiceOne()
         quizPage.clickChoiceTwo()
         quizPage.clickChoiceThree()
         quizPage.clickChoiceFour()
-        quizPage.checkIncorrectState(choice = 1, correct = 0) // состояние не изменилось
+        quizPage.checkIncorrectState(choice = 1, correct = 0)
 
         quizPage.clickNext()
         quizPage = QuizPage(
@@ -130,14 +130,7 @@ class ScenarioTest {
      */
     @Test
     fun caseNumberThree() {
-        var quizPage = QuizPage(
-            question = "What color is the sky?",
-            choice1 = "blue",
-            choice2 = "green",
-            choice3 = "yellow",
-            choice4 = "red"
-        )
-        quizPage.checkStateIsQuestion()
+        caseNumberFour()
 
         quizPage.clickChoiceOne()
         quizPage.checkStateIsFirstChoiceMade()
@@ -150,5 +143,26 @@ class ScenarioTest {
 
         quizPage.clickChoiceFour()
         quizPage.checkStateIsFourthChoiceMade()
+    }
+
+    /**
+     * TestCase 4
+     * 1) progress -> error
+     * 2) click retry
+     * 3) progress -> success
+     */
+    @Test
+    fun caseNumberFour() {
+        val loadPage = LoadPage()
+        loadPage.checkProgressState()
+
+        loadPage.waitUntilError()
+        loadPage.checkErrorState(message = "No internet connection")
+
+        loadPage.clickRetry()
+        loadPage.checkProgressState()
+
+        loadPage.waitUntilDisappear()
+        quizPage.checkStateIsQuestion()
     }
 }

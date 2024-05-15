@@ -16,7 +16,8 @@ class MainActivity : AppCompatActivity(), Navigation, ManageViewModels {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val viewModel = viewModel(MainViewModel::class.java)
+
+        val viewModel= viewModel(MainViewModel::class.java)
 
         val lastScreen = viewModel.init(savedInstanceState == null)
         navigate(lastScreen)
