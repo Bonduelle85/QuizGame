@@ -8,6 +8,8 @@ import com.example.quizgame.R
 import com.example.quizgame.core.di.ManageViewModels
 import com.example.quizgame.game.presentation.GameNavigation
 import com.example.quizgame.game.presentation.GameScreen
+import com.example.quizgame.load.presentation.LoadNavigation
+import com.example.quizgame.load.presentation.LoadScreen
 import com.example.quizgame.stats.presentation.StatsNavigation
 import com.example.quizgame.stats.presentation.StatsScreen
 
@@ -36,7 +38,7 @@ class MainActivity : AppCompatActivity(), Navigation, ManageViewModels {
     }
 }
 
-interface Navigation : GameNavigation, StatsNavigation {
+interface Navigation : GameNavigation, StatsNavigation, LoadNavigation {
 
     fun navigate(screen: Screen)
 
@@ -45,6 +47,10 @@ interface Navigation : GameNavigation, StatsNavigation {
     }
 
     override fun navigateFromStats() {
+        navigate(LoadScreen)
+    }
+
+    override fun navigateFromLoad() {
         navigate(GameScreen)
     }
 }

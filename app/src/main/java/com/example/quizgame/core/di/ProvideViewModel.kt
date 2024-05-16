@@ -1,6 +1,7 @@
 package com.example.quizgame.core.di
 
 import com.example.quizgame.game.di.ProvideGameViewModel
+import com.example.quizgame.load.di.ProvideLoadViewModel
 import com.example.quizgame.main.di.ProvideMainViewModel
 import com.example.quizgame.main.presentation.MyViewModel
 import com.example.quizgame.stats.di.ProvideStatsViewModel
@@ -37,6 +38,7 @@ interface ProvideViewModel {
             var temp: ProvideViewModel = Error()
             temp = ProvideMainViewModel(core, temp)
             temp = ProvideGameViewModel(core, temp)
+            temp = ProvideLoadViewModel(core, temp)
             chain = ProvideStatsViewModel(core, temp)
         }
 

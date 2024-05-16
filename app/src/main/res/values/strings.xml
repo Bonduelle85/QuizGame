@@ -5,4 +5,5 @@
     <string name="statistics">Statistics</string>
     <string name="new_game">New game</string>
     <string name="statistics_values">Corrects: %d\nIncorrects: %d</string>
+    <string name="retry">retry</string>
 </resources>

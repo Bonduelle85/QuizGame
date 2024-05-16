@@ -5,7 +5,7 @@ import com.example.quizgame.R
 import com.example.quizgame.core.data.IntCache
 import com.example.quizgame.core.data.PermanentStorage
 import com.example.quizgame.core.data.StringCache
-import com.example.quizgame.game.presentation.GameScreen
+import com.example.quizgame.load.presentation.LoadScreen
 
 class Core(context: Context) {
     val lastScreen: StringCache
@@ -24,6 +24,6 @@ class Core(context: Context) {
         incorrects = IntCache.Base("incorrects", permanentStorage, 0)
 
         lastScreen =
-            StringCache.Base("lastScreen", permanentStorage, GameScreen::class.java.canonicalName)
+            StringCache.Base("lastScreen", permanentStorage, LoadScreen::class.java.canonicalName!!)
     }
 }
