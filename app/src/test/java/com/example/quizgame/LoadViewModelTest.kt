@@ -4,6 +4,7 @@ import com.example.quizgame.load.data.LoadRepository
 import com.example.quizgame.load.data.LoadResult
 import com.example.quizgame.load.presentation.LoadUiState
 import com.example.quizgame.load.presentation.LoadViewModel
+import com.example.quizgame.main.presentation.RunAsync
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
@@ -17,7 +18,8 @@ class LoadViewModelTest {
     @Test
     fun test() {
         val repository = FakeLoadRepository()
-        val viewModel = LoadViewModel(repository = repository)
+        val runAsync = FakeRunAsync()
+        val viewModel = LoadViewModel(repository = repository, runAsync = runAsync)
         val showUi = FakeShowUi()
 
         viewModel.init(firstRun = true, showUi = showUi)
@@ -59,12 +61,20 @@ class FakeLoadRepository : LoadRepository {
 
     private var returnSuccess = false
 
-    override fun load(callback: (LoadResult) -> Unit) {
-        if (returnSuccess) {
-            callback.invoke(LoadResult.Success)
-        } else {
-            callback.invoke(LoadResult.Error(message = "failed to fetch data"))
+    override fun load(): LoadResult {
+        return if (returnSuccess)
+            LoadResult.Success
+        else {
             returnSuccess = true
+            LoadResult.Error(message = "failed to fetch data")
         }
+    }
+}
+
+class FakeRunAsync : RunAsync {
+
+    override fun <T : Any> runAsync(background: () -> T, ui: (T) -> Unit) {
+        val result = background.invoke()
+        ui.invoke(result)
     }
 }
