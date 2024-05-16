@@ -10,7 +10,7 @@ import com.example.quizgame.load.presentation.LoadViewModel
 class LoadModule(private val core: Core) : Module<LoadViewModel> {
 
     override fun viewModel(): LoadViewModel {
-        return LoadViewModel()
+        return TODO()
     }
 }
 

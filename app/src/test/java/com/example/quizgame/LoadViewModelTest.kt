@@ -1,5 +1,7 @@
 package com.example.quizgame
 
+import com.example.quizgame.load.data.LoadRepository
+import com.example.quizgame.load.data.LoadResult
 import com.example.quizgame.load.presentation.LoadUiState
 import com.example.quizgame.load.presentation.LoadViewModel
 import org.junit.Assert.assertEquals

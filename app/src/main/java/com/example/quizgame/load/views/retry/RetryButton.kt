@@ -26,8 +26,8 @@ class RetryButton : MaterialButton, UpdateRetry {
         this.visibility = visibility
     }
 
-    override fun onSaveInstanceState(): Parcelable? {
-        return super.onSaveInstanceState()?.let {
+    override fun onSaveInstanceState(): Parcelable {
+        super.onSaveInstanceState().let {
             val state = RetrySavedState(it)
             state.save(uiState)
             return state
