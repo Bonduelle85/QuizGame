@@ -25,7 +25,7 @@ class LoadFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        lateinit var uiState: LoadUiState
+
 
         val manageViewModels = activity as ManageViewModels
         val viewModel = manageViewModels.viewModel(LoadViewModel::class.java)
@@ -35,7 +35,7 @@ class LoadFragment : Fragment() {
             (activity as LoadNavigation).navigateFromLoad()
         }
 
-        val showUi: () -> Unit = {
+        val showUi: (LoadUiState) -> Unit = { uiState ->
             uiState.update(
                 progress = binding.progressBar,
                 error = binding.errorTextView,
@@ -45,12 +45,10 @@ class LoadFragment : Fragment() {
         }
 
         binding.retryButton.setOnClickListener {
-            uiState = viewModel.retry()
-            showUi.invoke()
+            viewModel.retry(showUi)
         }
 
-        uiState = viewModel.init(savedInstanceState == null)
-        showUi.invoke()
+        viewModel.init(savedInstanceState == null, showUi)
     }
 
     override fun onDestroyView() {
