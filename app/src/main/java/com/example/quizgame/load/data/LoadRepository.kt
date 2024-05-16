@@ -1,11 +1,15 @@
 package com.example.quizgame.load.data
 
+import com.example.quizgame.core.data.StringCache
+import com.example.quizgame.load.presentation.LoadScreen
+
 interface LoadRepository {
 
     fun load(): LoadResult
-
+    fun saveLastScreenIsProgress()
 
     class Base(
+        private val lastScreen: StringCache,
         private val cloudDataSource: CloudDataSource,
         private val cacheDataSource: CacheDataSource
     ) : LoadRepository {
@@ -19,6 +23,10 @@ interface LoadRepository {
                 LoadResult.Error(e.message ?: "error")
             }
 
+        }
+
+        override fun saveLastScreenIsProgress() {
+            lastScreen.save(LoadScreen::class.java.canonicalName!!)
         }
 
     }

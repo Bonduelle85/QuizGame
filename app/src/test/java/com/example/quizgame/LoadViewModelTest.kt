@@ -24,6 +24,8 @@ class LoadViewModelTest {
 
         viewModel.init(firstRun = true, showUi = showUi)
 
+        assertEquals(true, repository.saveLastScreenIsCalled)
+
         assertEquals(LoadUiState.Progress, showUi.uiStateList[0])
         assertEquals(LoadUiState.Error(message = "failed to fetch data"), showUi.uiStateList[1])
 
@@ -68,6 +70,12 @@ class FakeLoadRepository : LoadRepository {
             returnSuccess = true
             LoadResult.Error(message = "failed to fetch data")
         }
+    }
+
+    var saveLastScreenIsCalled = false
+
+    override fun saveLastScreenIsProgress() {
+        saveLastScreenIsCalled = true
     }
 }
 

@@ -20,6 +20,7 @@ class LoadModule(private val core: Core) : Module<LoadViewModel> {
         return LoadViewModel(
 
             LoadRepository.Base(
+                lastScreen,
                 CloudDataSource.Base(
                     // QuestionsService.Mock(gson)
                     QuestionsService.Base(),
