@@ -21,10 +21,10 @@ class ScenarioTest {
     fun setup() {
         quizPage = QuizPage(
             question = "What color is the sky?",
-            choice1 = "blue",
-            choice2 = "green",
-            choice3 = "yellow",
-            choice4 = "red"
+            choice1 = "green",
+            choice2 = "yellow",
+            choice3 = "red",
+            choice4 = "blue"
         )
     }
 
@@ -45,31 +45,31 @@ class ScenarioTest {
     fun caseNumberOne() {
         caseNumberFour()
 
-        quizPage.clickChoiceOne()
-        quizPage.checkStateIsFirstChoiceMade()
+        quizPage.clickChoiceFour()
+        quizPage.checkStateIsFourthChoiceMade()
         activityScenarioRule.scenario.recreate()
-        quizPage.checkStateIsFirstChoiceMade()
+        quizPage.checkStateIsFourthChoiceMade()
 
         quizPage.clickCheckButton()
-        quizPage.checkCorrectStateFirst()
+        quizPage.checkCorrectStateFourth()
         activityScenarioRule.scenario.recreate()
-        quizPage.checkStateIsFirstChoiceMade()
+        quizPage.checkCorrectStateFourth()
 
         quizPage.clickChoiceOne()
         quizPage.clickChoiceTwo()
         quizPage.clickChoiceThree()
         quizPage.clickChoiceFour()
-        quizPage.checkCorrectStateFirst()
+        quizPage.checkCorrectStateFourth()
         activityScenarioRule.scenario.recreate()
-        quizPage.checkCorrectStateFirst()
+        quizPage.checkCorrectStateFourth()
 
         quizPage.clickNext()
         quizPage = QuizPage(
             question = "What color is grass?",
             choice1 = "blue",
-            choice2 = "green",
-            choice3 = "yellow",
-            choice4 = "red"
+            choice2 = "yellow",
+            choice3 = "red",
+            choice4 = "green"
         )
         quizPage.checkStateIsQuestion()
         activityScenarioRule.scenario.recreate()

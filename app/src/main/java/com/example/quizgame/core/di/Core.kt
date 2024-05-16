@@ -6,12 +6,14 @@ import com.example.quizgame.core.data.IntCache
 import com.example.quizgame.core.data.PermanentStorage
 import com.example.quizgame.core.data.StringCache
 import com.example.quizgame.load.presentation.LoadScreen
+import com.google.gson.Gson
 
 class Core(context: Context) {
     val lastScreen: StringCache
     val corrects: IntCache
     val incorrects: IntCache
     val permanentStorage: PermanentStorage
+    val gson = Gson()
 
     init {
         val name = context.getString(R.string.app_name)

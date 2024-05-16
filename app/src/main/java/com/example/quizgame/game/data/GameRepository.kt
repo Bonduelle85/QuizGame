@@ -5,6 +5,7 @@ import com.example.quizgame.core.data.IntCache
 import com.example.quizgame.core.data.QuestionAndChoices
 import com.example.quizgame.core.data.StringCache
 import com.example.quizgame.game.presentation.GameScreen
+import com.example.quizgame.load.data.CacheDataSource
 
 interface GameRepository {
 
@@ -24,40 +25,15 @@ interface GameRepository {
         private val incorrects: IntCache,
         private val currentIndex: IntCache,
         private val userChoiceIndex: IntCache,
+        cacheDataSource: CacheDataSource,
     ) : GameRepository {
 
-        private val questionAndChoicesList = listOf(
-            QuestionAndChoices(
-                question = "What color is the sky?",
-                choiceOne = "blue",
-                choiceTwo = "green",
-                choiceThree = "yellow",
-                choiceFour = "red",
-            ),
-            QuestionAndChoices(
-                question = "What color is grass?",
-                choiceOne = "blue",
-                choiceTwo = "green",
-                choiceThree = "yellow",
-                choiceFour = "red",
-            ),
-            QuestionAndChoices(
-                question = "What color is sun?",
-                choiceOne = "blue",
-                choiceTwo = "green",
-                choiceThree = "yellow",
-                choiceFour = "red",
-            ),
-        )
-
-        private val answersList = listOf(
-            0,
-            1,
-            2
-        )
+        private val questionAndChoicesList = cacheDataSource.read()
 
         override fun questionAndChoices(): QuestionAndChoices {
-            return questionAndChoicesList[currentIndex.read()]
+            val current = questionAndChoicesList[currentIndex.read()]
+            val list = (current.incorrects + current.correct)//todo
+            return QuestionAndChoices(current.question, list[0], list[1], list[2], list[3])
         }
 
         override fun chooseFirst() {
@@ -77,7 +53,7 @@ interface GameRepository {
         }
 
         override fun check(): CheckResult {
-            val correctIndex = answersList[currentIndex.read()]
+            val correctIndex = 3
             return if (userChoiceIndex.read() == correctIndex) {
                 corrects.save(corrects.read() + 1)
                 CheckResult.Correct(correctIndex = correctIndex)

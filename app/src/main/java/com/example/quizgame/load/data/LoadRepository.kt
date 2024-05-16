@@ -1,53 +1,22 @@
 package com.example.quizgame.load.data
 
-import android.util.Log
-import java.io.BufferedReader
-import java.io.InputStreamReader
-import java.net.HttpURLConnection
-import java.net.URL
-import java.net.UnknownHostException
-
 interface LoadRepository {
 
     fun load(): LoadResult
 
 
-    class Base : LoadRepository {
+    class Base(
+        private val cloudDataSource: CloudDataSource,
+        private val cacheDataSource: CacheDataSource
+    ) : LoadRepository {
 
         override fun load(): LoadResult {
-            val urlGetRequest =
-                URL("https://opentdb.com/api.php?amount=10&difficulty=easy&type=multiple")
-            val apiConnexion = urlGetRequest.openConnection() as HttpURLConnection
-            apiConnexion.requestMethod = "GET"
-
-            try {
-                // Response code
-                val responseCode = apiConnexion.responseCode
-                if (responseCode == HttpURLConnection.HTTP_OK) {
-                    // Read the response
-                    val `in` = BufferedReader(InputStreamReader(apiConnexion.inputStream))
-                    val response = StringBuffer()
-                    var inputLine: String?
-                    while (`in`.readLine().also { inputLine = it } != null) {
-                        response.append(inputLine)
-                    }
-                    `in`.close()
-
-                    // Return response
-                    val result = response.toString()
-                    //todo save data to cache data source
-                    return LoadResult.Success
-                } else {
-                    return LoadResult.Error(responseCode.toString())
-                }
+            return try {
+                val data = cloudDataSource.data()
+                cacheDataSource.save(ResponseCloud(data))
+                LoadResult.Success
             } catch (e: Exception) {
-                return if (e is UnknownHostException || e is java.net.ConnectException)
-                    (LoadResult.Error("No internet connection"))
-                else
-                    (LoadResult.Error(e.message ?: "error"))
-            } finally {
-                Log.e("Disconnection", "e.toString()")
-                apiConnexion.disconnect()
+                LoadResult.Error(e.message ?: "error")
             }
 
         }
