@@ -6,6 +6,8 @@ import com.example.quizgame.load.presentation.LoadUiState
 import com.example.quizgame.load.presentation.LoadViewModel
 import com.example.quizgame.load.presentation.UiObservable
 import com.example.quizgame.main.presentation.RunAsync
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
@@ -72,7 +74,7 @@ class FakeLoadRepository : LoadRepository {
 
     private var returnSuccess = false
 
-    override fun load(): LoadResult {
+    override suspend fun load(): LoadResult {
         return if (returnSuccess)
             LoadResult.Success
         else {
@@ -90,8 +92,11 @@ class FakeLoadRepository : LoadRepository {
 
 class FakeRunAsync : RunAsync {
 
-    override fun <T : Any> runAsync(background: () -> T, ui: (T) -> Unit) {
+    //    override fun <T : Any> runAsync(background: () -> T, ui: (T) -> Unit) {
+    override fun <T : Any> runAsync(coroutineScope: CoroutineScope, background: suspend () -> T, ui: (T) -> Unit) = runBlocking {
         val result = background.invoke()
         ui.invoke(result)
     }
+
+    override fun cancelLastJob() {}
 }

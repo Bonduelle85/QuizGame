@@ -5,7 +5,7 @@ import com.example.quizgame.load.presentation.LoadScreen
 
 interface LoadRepository {
 
-    fun load(): LoadResult
+    suspend fun load(): LoadResult
     fun saveLastScreenIsProgress()
 
     class Base(
@@ -14,7 +14,7 @@ interface LoadRepository {
         private val cacheDataSource: CacheDataSource
     ) : LoadRepository {
 
-        override fun load(): LoadResult {
+        override suspend fun load(): LoadResult {
             return try {
                 val data = cloudDataSource.data()
                 cacheDataSource.save(ResponseCloud(data))
