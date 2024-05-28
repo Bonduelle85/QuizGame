@@ -10,16 +10,17 @@ class MainViewModelTest {
 
     @Test
     fun test() {
-        val viewModel = MainViewModel(FakeMainRepository())
+        val viewModel = MainViewModel(FakeRepository())
         var actual = viewModel.init(true)
         assertEquals(FakeScreen, actual)
 
         actual = viewModel.init(false)
         assertEquals(Screen.Empty, actual)
+
     }
 }
 
-private class FakeMainRepository : MainRepository {
+private class FakeRepository : MainRepository {
 
     override fun lastSavedScreen(): Screen {
         return FakeScreen

@@ -15,13 +15,17 @@ class Core(context: Context) {
     val permanentStorage: PermanentStorage
     val gson = Gson()
 
+    val runUiTest: Boolean = false
+
     init {
-        val name = context.getString(R.string.app_name)
+        val name = if (runUiTest) "uitestname" else context.getString(R.string.app_name)
+
         permanentStorage = PermanentStorage.Base(
             context.getSharedPreferences(
                 name, Context.MODE_PRIVATE
             )
         )
+
         corrects = IntCache.Base("corrects", permanentStorage, 0)
         incorrects = IntCache.Base("incorrects", permanentStorage, 0)
 

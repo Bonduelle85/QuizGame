@@ -1,3 +1,5 @@
+@file:Suppress("UNCHECKED_CAST")
+
 package com.example.quizgame.core.di
 
 import com.example.quizgame.game.di.ProvideGameViewModel

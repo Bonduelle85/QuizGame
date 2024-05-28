@@ -2,11 +2,14 @@ package com.example.quizgame
 
 import android.widget.LinearLayout
 import androidx.test.espresso.Espresso
-import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom
+import androidx.test.espresso.matcher.ViewMatchers.isRoot
+import androidx.test.espresso.matcher.ViewMatchers.withParent
 
 class LoadPage {
+
     private val rootId: Int = R.id.loadLayout
-    private val parent = ViewMatchers.withParent(ViewMatchers.isAssignableFrom(LinearLayout::class.java))
+    private val parent = withParent(isAssignableFrom(LinearLayout::class.java))
 
     private val errorUi = ErrorUi(rootId, parent)
     private val progressUi = ProgressUi(rootId, parent)
@@ -33,6 +36,6 @@ class LoadPage {
     }
 
     fun waitUntilDisappear() {
-        Espresso.onView(ViewMatchers.isRoot()).perform(Wait(1100))
+        Espresso.onView(isRoot()).perform(Wait(1100))
     }
 }

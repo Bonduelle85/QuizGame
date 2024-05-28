@@ -5,12 +5,12 @@ import com.example.quizgame.core.views.action.UpdateActionButton
 import com.example.quizgame.core.views.choice.ChoiceButtonAction
 import com.example.quizgame.core.views.choice.ChoiceUiState
 import com.example.quizgame.core.views.question.QuestionUiState
-import com.example.quizgame.core.views.question.UpdateQuestionText
+import com.example.quizgame.core.views.question.UpdateText
 
 interface GameUiState {
 
     fun update(
-        questionTextView: UpdateQuestionText,
+        questionTextView: UpdateText,
         choiceButtonOne: ChoiceButtonAction,
         choiceButtonTwo: ChoiceButtonAction,
         choiceButtonThree: ChoiceButtonAction,
@@ -38,7 +38,7 @@ interface GameUiState {
         private val actionUiState: ActionUiState
     ) : GameUiState {
         override fun update(
-            questionTextView: UpdateQuestionText,
+            questionTextView: UpdateText,
             choiceButtonOne: ChoiceButtonAction,
             choiceButtonTwo: ChoiceButtonAction,
             choiceButtonThree: ChoiceButtonAction,
@@ -68,7 +68,7 @@ interface GameUiState {
         actionUiState
     ) {
         override fun update(
-            questionTextView: UpdateQuestionText,
+            questionTextView: UpdateText,
             choiceButtonOne: ChoiceButtonAction,
             choiceButtonTwo: ChoiceButtonAction,
             choiceButtonThree: ChoiceButtonAction,

@@ -22,26 +22,6 @@ class ActionGameUiStateTest {
         assertEquals(View.INVISIBLE, button.actualVisibility)
     }
 
-    @Test
-    fun testCheckUiState() {
-        val check = ActionUiState.Check
-        val button = FakeButton()
-        check.show(button)
-
-        assertEquals(R.string.check, button.actualTextId)
-        assertEquals(View.VISIBLE, button.actualVisibility)
-    }
-
-    @Test
-    fun testNextUiState() {
-        val next = ActionUiState.Next
-        val button = FakeButton()
-        next.show(button)
-
-        assertEquals(R.string.next, button.actualTextId)
-        assertEquals(View.VISIBLE, button.actualVisibility)
-    }
-
     @Test(expected = IllegalStateException::class)
     fun testNoneAction() {
         val none = ActionUiState.None

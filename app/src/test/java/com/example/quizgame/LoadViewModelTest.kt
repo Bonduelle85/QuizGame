@@ -4,6 +4,7 @@ import com.example.quizgame.load.data.LoadRepository
 import com.example.quizgame.load.data.LoadResult
 import com.example.quizgame.load.presentation.LoadUiState
 import com.example.quizgame.load.presentation.LoadViewModel
+import com.example.quizgame.load.presentation.UiObservable
 import com.example.quizgame.main.presentation.RunAsync
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -19,35 +20,43 @@ class LoadViewModelTest {
     fun test() {
         val repository = FakeLoadRepository()
         val runAsync = FakeRunAsync()
-        val viewModel = LoadViewModel(repository = repository, runAsync = runAsync)
-        val showUi = FakeShowUi()
+        val showUi = FakeObservable()
+        val viewModel = LoadViewModel(showUi, repository = repository, runAsync = runAsync)
 
-        viewModel.init(firstRun = true, showUi = showUi)
+        viewModel.init(firstRun = true)
 
         assertEquals(true, repository.saveLastScreenIsCalled)
 
         assertEquals(LoadUiState.Progress, showUi.uiStateList[0])
         assertEquals(LoadUiState.Error(message = "failed to fetch data"), showUi.uiStateList[1])
 
-        viewModel.retry(showUi = showUi)
+        viewModel.retry()
 
         assertEquals(LoadUiState.Progress, showUi.uiStateList[2])
         assertEquals(LoadUiState.Success, showUi.uiStateList[3])
 
         //change configuration rotate screen
         assertEquals(4, showUi.uiStateList.size)
-        viewModel.init(firstRun = false, showUi = showUi)
+        viewModel.init(firstRun = false)
         assertEquals(4, showUi.uiStateList.size)
     }
 }
 
-class FakeShowUi : (LoadUiState) -> Unit {
-
+class FakeObservable : UiObservable {
     val uiStateList = mutableListOf<LoadUiState>()
 
-    override fun invoke(p1: LoadUiState) {
-        uiStateList.add(p1)
+    override fun updateObserver(observer: (LoadUiState) -> Unit) {
+
     }
+
+    override fun clearObserver() {
+
+    }
+
+    override fun updateUiState(uiState: LoadUiState) {
+        uiStateList.add(uiState)
+    }
+
 }
 
 /*

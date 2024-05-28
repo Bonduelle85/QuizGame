@@ -1,20 +1,25 @@
 package com.example.quizgame.load.data
 
-import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
+import retrofit2.Call
+import java.net.UnknownHostException
 
 interface CloudDataSource {
 
     fun data(): List<QuestionAndChoicesCloud>
 
-    class Base(
-        private val service: QuestionsService,
-        private val gson: Gson
-    ) : CloudDataSource {
+    class Base(private val questionService: QuestionService) : CloudDataSource {
 
         override fun data(): List<QuestionAndChoicesCloud> {
-            val response: String = service.data()
-            return gson.fromJson(response, ResponseCloud::class.java).items
+            try {
+                val data: Call<ResponseCloud> = questionService.data()
+                return data.execute().body()!!.items
+            } catch (e: Exception) {
+                if (e is UnknownHostException)
+                    throw IllegalStateException("No internet connection")
+                else
+                    throw IllegalStateException("unknown error")
+            }
         }
     }
 }

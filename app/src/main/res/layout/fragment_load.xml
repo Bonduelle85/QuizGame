@@ -20,11 +20,13 @@
         android:padding="16dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Title"
         android:textColor="@color/red"
-        tools:text="no internet connection" />
+        tools:text="No internet connection"
+        android:visibility="gone"/>
 
     <com.example.quizgame.load.views.retry.RetryButton
         android:id="@+id/retryButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/retry" />
+        android:text="@string/retry"
+        android:visibility="gone"/>
 </LinearLayout>
