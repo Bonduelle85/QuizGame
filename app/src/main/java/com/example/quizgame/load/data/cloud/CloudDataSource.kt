@@ -1,4 +1,4 @@
-package com.example.quizgame.load.data
+package com.example.quizgame.load.data.cloud
 
 import com.google.gson.annotations.SerializedName
 import retrofit2.Call
@@ -8,11 +8,14 @@ interface CloudDataSource {
 
     suspend fun data(): List<QuestionAndChoicesCloud>
 
-    class Base(private val questionService: QuestionService) : CloudDataSource {
+    class Base(
+        private val questionService: QuestionService,
+        private val max: Int
+        ) : CloudDataSource {
 
         override suspend fun data(): List<QuestionAndChoicesCloud> {
             try {
-                val data: Call<ResponseCloud> = questionService.data()
+                val data: Call<ResponseCloud> = questionService.data(max)
                 return data.execute().body()!!.items
             } catch (e: Exception) {
                 if (e is UnknownHostException)

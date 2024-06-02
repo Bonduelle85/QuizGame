@@ -1,4 +1,4 @@
-package com.example.quizgame
+package com.example.quizgame.ui
 
 import android.view.View
 import androidx.test.espresso.PerformException

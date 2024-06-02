@@ -1,5 +1,6 @@
 package com.example.quizgame.game.presentation
 
+import com.example.quizgame.core.presentation.UiState
 import com.example.quizgame.core.views.action.ActionUiState
 import com.example.quizgame.core.views.action.UpdateActionButton
 import com.example.quizgame.core.views.choice.ChoiceButtonAction
@@ -7,7 +8,7 @@ import com.example.quizgame.core.views.choice.ChoiceUiState
 import com.example.quizgame.core.views.question.QuestionUiState
 import com.example.quizgame.core.views.question.UpdateText
 
-interface GameUiState {
+interface GameUiState : UiState {
 
     fun update(
         questionTextView: UpdateText,

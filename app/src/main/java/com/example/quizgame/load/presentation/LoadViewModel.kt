@@ -5,7 +5,7 @@ import com.example.quizgame.main.presentation.MyViewModel
 import com.example.quizgame.main.presentation.RunAsync
 
 class LoadViewModel(
-    private val uiObservable: UiObservable,
+    private val uiObservable: LoadUiObservable,
     private val repository: LoadRepository,
     runAsync: RunAsync,
 ) : MyViewModel.Abstract(runAsync) {

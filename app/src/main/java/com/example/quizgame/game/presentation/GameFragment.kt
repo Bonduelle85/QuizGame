@@ -13,6 +13,9 @@ class GameFragment : Fragment() {
     private var _binding: FragmentGameBinding? = null
     private val binding get() = _binding!!
 
+    private lateinit var viewModel: GameViewModel
+    private lateinit var showUi: (GameUiState) -> Unit
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -24,12 +27,11 @@ class GameFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        lateinit var uiState: GameUiState
 
         val manageViewModels = activity as ManageViewModels
-        val viewModel = manageViewModels.viewModel(GameViewModel::class.java)
+        viewModel = manageViewModels.viewModel(GameViewModel::class.java)
 
-        val showUi: () -> Unit = {
+        showUi = {uiState ->
             uiState.update(
                 binding.questionTextView,
                 binding.choiceOneButton,
@@ -38,39 +40,43 @@ class GameFragment : Fragment() {
                 binding.choiceFourButton,
                 binding.actionButton
             )
-        }
-
-        binding.choiceOneButton.setOnClickListener {
-            uiState = viewModel.chooseFirst()
-            showUi.invoke()
-        }
-
-        binding.choiceTwoButton.setOnClickListener {
-            uiState = viewModel.chooseSecond()
-            showUi.invoke()
-        }
-
-        binding.choiceThreeButton.setOnClickListener {
-            uiState = viewModel.chooseThird()
-            showUi.invoke()
-        }
-
-        binding.choiceFourButton.setOnClickListener {
-            uiState = viewModel.chooseFourth()
-            showUi.invoke()
-        }
-
-        binding.actionButton.setOnClickListener {
-            uiState = binding.actionButton.handleAction(viewModel)
-            showUi.invoke()
             uiState.navigate {
                 manageViewModels.clear(GameViewModel::class.java)
                 (requireActivity() as GameNavigation).navigateFromGameScreen()
             }
         }
 
-        uiState = viewModel.init(savedInstanceState == null)
-        showUi.invoke()
+        binding.choiceOneButton.setOnClickListener {
+            viewModel.chooseFirst()
+        }
+
+        binding.choiceTwoButton.setOnClickListener {
+            viewModel.chooseSecond()
+        }
+
+        binding.choiceThreeButton.setOnClickListener {
+            viewModel.chooseThird()
+        }
+
+        binding.choiceFourButton.setOnClickListener {
+            viewModel.chooseFourth()
+        }
+
+        binding.actionButton.setOnClickListener {
+            binding.actionButton.handleAction(viewModel)
+        }
+
+        viewModel.init(savedInstanceState == null)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.startGettingUpdates(observer = showUi)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        viewModel.stopGettingUpdates()
     }
 
     override fun onDestroyView() {

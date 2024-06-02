@@ -1,6 +1,7 @@
-package com.example.quizgame
+package com.example.quizgame.ui
 
 import android.view.View
+import com.example.quizgame.R
 import com.example.quizgame.core.views.action.ActionUiState
 import com.example.quizgame.core.views.action.UpdateActionButton
 import com.example.quizgame.core.views.choice.ChoiceButtonAction

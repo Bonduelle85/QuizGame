@@ -1,4 +1,4 @@
-package com.example.quizgame
+package com.example.quizgame.ui
 
 import com.example.quizgame.core.views.question.QuestionUiState
 import com.example.quizgame.core.views.question.UpdateText

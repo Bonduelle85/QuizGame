@@ -1,4 +1,4 @@
-package com.example.quizgame.load.data
+package com.example.quizgame.load.data.cloud
 
 import okhttp3.Request
 import okio.Timeout
@@ -13,7 +13,7 @@ interface QuestionService {
 
     @GET("api.php")
     fun data(
-        @Query("amount") count: Int = 3,
+        @Query("amount") count: Int,
         @Query("difficulty") difficulty: String = "easy",
         @Query("type") type: String = "multiple"
     ): Call<ResponseCloud>

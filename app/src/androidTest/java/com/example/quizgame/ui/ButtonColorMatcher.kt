@@ -1,4 +1,4 @@
-package com.example.quizgame
+package com.example.quizgame.ui
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable

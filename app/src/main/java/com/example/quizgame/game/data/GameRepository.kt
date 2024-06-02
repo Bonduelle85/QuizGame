@@ -5,11 +5,11 @@ import com.example.quizgame.core.data.IntCache
 import com.example.quizgame.core.data.QuestionAndChoices
 import com.example.quizgame.core.data.StringCache
 import com.example.quizgame.game.presentation.GameScreen
-import com.example.quizgame.load.data.CacheDataSource
+import com.example.quizgame.load.data.cache.CacheDataSource
 
 interface GameRepository {
 
-    fun questionAndChoices(): QuestionAndChoices
+    suspend fun questionAndChoices(): QuestionAndChoices
     fun chooseFirst()
     fun chooseSecond()
     fun chooseThird()
@@ -20,19 +20,18 @@ interface GameRepository {
     fun saveCurrentScreenIsGame()
 
     class Base(
+        private val max: Int,
         private val lastScreen: StringCache,
         private val corrects: IntCache,
         private val incorrects: IntCache,
         private val currentIndex: IntCache,
         private val userChoiceIndex: IntCache,
-        cacheDataSource: CacheDataSource,
+        private val cacheDataSource: CacheDataSource,
     ) : GameRepository {
 
-        private val questionAndChoicesList = cacheDataSource.read()
-
-        override fun questionAndChoices(): QuestionAndChoices {
-            val current = questionAndChoicesList[currentIndex.read()]
-            val list = (current.incorrects + current.correct)//todo
+        override suspend fun questionAndChoices(): QuestionAndChoices {
+            val current = cacheDataSource.read(currentIndex.read())
+            val list = (current.incorrects + current.correct)
             return QuestionAndChoices(current.question, list[0], list[1], list[2], list[3])
         }
 
@@ -75,14 +74,14 @@ interface GameRepository {
         }
 
         override fun noMoreQuestions(): Boolean {
-            val noMore = currentIndex.read() == questionAndChoicesList.size
+            val noMore = currentIndex.read() == max
             if (noMore)
                 currentIndex.save(0)
             return noMore
         }
 
         override fun saveCurrentScreenIsGame() {
-            lastScreen.save(GameScreen::class.java.canonicalName)
+            GameScreen::class.java.canonicalName?.let { lastScreen.save(it) }
         }
     }
 }

@@ -1,8 +1,9 @@
-package com.example.quizgame
+package com.example.quizgame.ui
 
 import android.widget.LinearLayout
 import androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom
 import androidx.test.espresso.matcher.ViewMatchers.withParent
+import com.example.quizgame.R
 
 
 class QuizPage(

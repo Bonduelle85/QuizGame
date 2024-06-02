@@ -1,5 +1,6 @@
 package com.example.quizgame.load.presentation
 
+import com.example.quizgame.core.presentation.UiState
 import com.example.quizgame.load.views.error.ErrorUiState
 import com.example.quizgame.load.views.error.UpdateError
 import com.example.quizgame.load.views.progress.ProgressUiState
@@ -7,7 +8,7 @@ import com.example.quizgame.load.views.progress.UpdateProgress
 import com.example.quizgame.load.views.retry.RetryUiState
 import com.example.quizgame.load.views.retry.UpdateRetry
 
-interface LoadUiState {
+interface LoadUiState : UiState {
     fun update(progress: UpdateProgress, error: UpdateError, retry: UpdateRetry)
     fun navigate(exit: () -> Unit)
 

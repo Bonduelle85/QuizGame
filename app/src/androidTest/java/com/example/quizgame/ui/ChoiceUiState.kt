@@ -1,5 +1,6 @@
-package com.example.quizgame
+package com.example.quizgame.ui
 
+import com.example.quizgame.R
 import com.example.quizgame.core.views.choice.ChoiceButtonAction
 import com.example.quizgame.core.views.choice.ChoiceUiState
 import org.junit.Assert

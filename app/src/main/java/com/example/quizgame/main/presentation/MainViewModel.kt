@@ -46,11 +46,7 @@ interface MyViewModel {
 interface RunAsync {
 
     //    fun <T : Any> runAsync(background: () -> T, ui: (T) -> Unit)
-    fun <T : Any> runAsync(
-        coroutineScope: CoroutineScope,
-        background: suspend () -> T,
-        ui: (T) -> Unit
-    )
+    fun <T : Any> runAsync(coroutineScope: CoroutineScope, background: suspend () -> T, ui: (T) -> Unit)
 
     fun cancelLastJob()
 

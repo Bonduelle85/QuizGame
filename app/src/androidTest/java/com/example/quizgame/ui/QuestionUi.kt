@@ -1,4 +1,4 @@
-package com.example.quizgame
+package com.example.quizgame.ui
 
 import android.view.View
 import android.widget.TextView
@@ -7,6 +7,7 @@ import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
+import com.example.quizgame.R
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers
 

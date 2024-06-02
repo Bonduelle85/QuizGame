@@ -1,4 +1,4 @@
-package com.example.quizgame
+package com.example.quizgame.ui
 
 import android.view.View
 import androidx.appcompat.widget.AppCompatButton
@@ -6,6 +6,7 @@ import androidx.test.espresso.Espresso
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withText
+import com.example.quizgame.R
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers
 

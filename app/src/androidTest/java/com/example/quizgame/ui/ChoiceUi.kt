@@ -1,4 +1,4 @@
-package com.example.quizgame
+package com.example.quizgame.ui
 
 import android.view.View
 import androidx.appcompat.widget.AppCompatButton
@@ -37,8 +37,8 @@ class ChoiceUi(
 
     fun checkQuestionState() {
         interaction
-//            .check(ViewAssertions.matches(ViewMatchers.isClickable()))
-//            .check(ViewAssertions.matches(ButtonColorMatcher(buttonColorQuestionState)))
+            .check(ViewAssertions.matches(ViewMatchers.isClickable()))
+            .check(ViewAssertions.matches(ButtonColorMatcher(buttonColorQuestionState)))
     }
 
     fun checkChoiceMade() {
@@ -68,7 +68,7 @@ class ChoiceUi(
 
     fun checkCorrect() {
         interaction
-//            .check(ViewAssertions.matches(ButtonColorMatcher(buttonColorCorrect)))
+            .check(ViewAssertions.matches(ButtonColorMatcher(buttonColorCorrect)))
             .check(ViewAssertions.matches(Matchers.not(ViewMatchers.isClickable())))
     }
 
@@ -79,7 +79,7 @@ class ChoiceUi(
 
     fun checkInactive() {
         interaction
-//            .check(ViewAssertions.matches(ButtonColorMatcher(buttonColorInactiveState)))
+            .check(ViewAssertions.matches(ButtonColorMatcher(buttonColorInactiveState)))
             .check(ViewAssertions.matches(Matchers.not(ViewMatchers.isClickable())))
     }
 

@@ -1,6 +1,9 @@
 package com.example.quizgame.load.data
 
 import com.example.quizgame.core.data.StringCache
+import com.example.quizgame.load.data.cache.CacheDataSource
+import com.example.quizgame.load.data.cloud.CloudDataSource
+import com.example.quizgame.load.data.cloud.ResponseCloud
 import com.example.quizgame.load.presentation.LoadScreen
 
 interface LoadRepository {

@@ -1,19 +1,16 @@
 package com.example.quizgame.load.di
 
-import com.example.quizgame.core.data.StringCache
 import com.example.quizgame.core.di.Core
 import com.example.quizgame.core.di.Module
 import com.example.quizgame.core.di.ProvideAbstract
 import com.example.quizgame.core.di.ProvideViewModel
-import com.example.quizgame.load.data.CacheDataSource
-import com.example.quizgame.load.data.CloudDataSource
-import com.example.quizgame.load.data.FakeService
 import com.example.quizgame.load.data.LoadRepository
-import com.example.quizgame.load.data.QuestionService
-import com.example.quizgame.load.data.ResponseCloud
+import com.example.quizgame.load.data.cache.CacheDataSource
+import com.example.quizgame.load.data.cloud.CloudDataSource
+import com.example.quizgame.load.data.cloud.FakeService
+import com.example.quizgame.load.data.cloud.QuestionService
+import com.example.quizgame.load.presentation.LoadUiObservable
 import com.example.quizgame.load.presentation.LoadViewModel
-import com.example.quizgame.load.presentation.UiObservable
-import com.example.quizgame.main.presentation.RunAsync
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -24,7 +21,7 @@ class LoadModule(private val core: Core) : Module<LoadViewModel> {
 
     override fun viewModel(): LoadViewModel = with(core) {
         return LoadViewModel(
-            UiObservable.Base(),
+            LoadUiObservable.Base(),
             LoadRepository.Base(
                 lastScreen,
                 CloudDataSource.Base(
@@ -42,14 +39,12 @@ class LoadModule(private val core: Core) : Module<LoadViewModel> {
                                     .build()
                             )
                             .build()
-                            .create(QuestionService::class.java)
+                            .create(QuestionService::class.java),
+                    core.max
                 ),
-                CacheDataSource.Base(
-                    StringCache.Base(
-                        "gameData", core.permanentStorage, gson.toJson(ResponseCloud(emptyList()))
-                    ), gson
-                )
-            ),RunAsync.Base()
+                CacheDataSource.Base(core.cacheModule.database().dao())
+            ),
+            core.runAsync
         )
     }
 }

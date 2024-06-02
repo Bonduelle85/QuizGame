@@ -1,4 +1,4 @@
-package com.example.quizgame
+package com.example.quizgame.ui
 
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -98,21 +98,21 @@ class ScenarioTest {
         quizPage.checkStateIsSecondChoiceMade()
 
         quizPage.clickCheckButton()
-        quizPage.checkIncorrectState(choice = 1, correct = 0)
+        quizPage.checkIncorrectState(choice = 1, correct = 3)
 
         quizPage.clickChoiceOne()
         quizPage.clickChoiceTwo()
         quizPage.clickChoiceThree()
         quizPage.clickChoiceFour()
-        quizPage.checkIncorrectState(choice = 1, correct = 0)
+        quizPage.checkIncorrectState(choice = 1, correct = 3)
 
         quizPage.clickNext()
         quizPage = QuizPage(
             question = "What color is grass?",
             choice1 = "blue",
-            choice2 = "green",
-            choice3 = "yellow",
-            choice4 = "red"
+            choice2 = "yellow",
+            choice3 = "red",
+            choice4 = "green"
         )
         quizPage.checkStateIsQuestion()
     }

@@ -21,7 +21,7 @@ class GameViewModelTest {
     fun setup() {
         repository = FakeGameRepository()
         viewModel = GameViewModel(
-            gameRepository = repository
+            repository = repository
         )
     }
 
